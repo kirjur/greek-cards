@@ -1,0 +1,58 @@
+# Ελληνικά — карточки
+
+Небольшое PWA для греческого: слова и фразы с уроков, повторения по FSRS, конспекты, тексты для чтения с озвучкой. Работает офлайн, прогресс хранится в браузере (localStorage), есть экспорт/импорт в JSON.
+
+## Что внутри
+
+```
+index.html, app.js, style.css   — приложение
+sw.js, manifest.webmanifest     — офлайн и установка на экран «Домой»
+vendor/                         — ts-fsrs 5.4.2, marked 18
+data/words.json                 — слова (собирается из _src/build_words.py)
+data/notes.json                 — конспекты (собирается из _src/notes/*.md)
+_src/                           — исходники данных (Jekyll на GitHub Pages их не публикует)
+```
+
+Колоды: «Слова» (el→ru, ru→el, артикль), «Фразы» (el→ru, ru→el), «Чтение» (el→ru, с транскрипцией), «Правила чтения» (алфавит, диграфы, 60 сочетаний; по умолчанию выключена).
+
+## Запустить локально
+
+```sh
+cd ~/greek/app
+python3 -m http.server 8000
+# http://localhost:8000
+```
+
+## Выложить на GitHub Pages
+
+```sh
+cd ~/greek/app
+git init -b main
+git add .
+git commit -m "feat: greek flashcards pwa"
+gh repo create greek-cards --public --source=. --push
+gh api -X POST "repos/$(gh api user -q .login)/greek-cards/pages" -f "source[branch]=main" -f "source[path]=/"
+```
+
+Через минуту-две будет доступно по адресу `https://<github-логин>.github.io/greek-cards/`. Pages для приватного репозитория требует платный план.
+
+Альтернатива — любой статический хостинг с HTTPS (например, nginx на VPS): скопировать папку целиком. Без HTTPS не заработает офлайн-режим.
+
+## На iPhone
+
+1. Открыть адрес в Safari → «Поделиться» → «На экран „Домой“».
+2. Греческий голос: Настройки → Универсальный доступ → Устный контент → Голоса → Греческий (Melina).
+3. Греческая клавиатура: Настройки → Основные → Клавиатура → Клавиатуры → Новые клавиатуры → Греческий. Ударение — удерживать гласную.
+
+Прогресс живёт только в этом браузере на этом устройстве: время от времени делай «Прогресс → Экспорт».
+
+## Обновить слова и конспекты
+
+```sh
+cd ~/greek/app/_src
+python3 build_words.py ../data/words.json
+python3 build_notes.py notes ../data/notes.json
+cd .. && git commit -am "feat(words): lesson 7" && git push
+```
+
+ID слов стабильные (колода + слово без ударений), поэтому прогресс по старым словам сохраняется, новые появляются как новые карточки. При изменении app.js/style.css стоит поднять `VERSION` в `sw.js`.

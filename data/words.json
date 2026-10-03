@@ -1,0 +1,2928 @@
+{
+ "version": 1,
+ "lessons": {
+  "1": "17.09",
+  "2": "18.09",
+  "3": "24.09",
+  "4": "25.09",
+  "5": "01.10",
+  "6": "02.10"
+ },
+ "decks": {
+  "vocab": "Слова",
+  "phrases": "Фразы",
+  "reading": "Чтение",
+  "rules": "Правила чтения"
+ },
+ "words": [
+  {
+   "el": "είμαι",
+   "ru": "я есть, являюсь",
+   "pos": "verb",
+   "note": "Словарная форма глагола — 1-е лицо ед. ч. Инфинитива в греческом нет.",
+   "deck": "vocab",
+   "lesson": 4,
+   "id": "vocab:ειμαι"
+  },
+  {
+   "el": "είσαι",
+   "ru": "ты есть",
+   "pos": "verb",
+   "deck": "vocab",
+   "lesson": 4,
+   "id": "vocab:εισαι"
+  },
+  {
+   "el": "είναι",
+   "ru": "он / она / оно есть; они есть",
+   "pos": "verb",
+   "note": "Одна форма для 3-го лица ед. и мн. числа.",
+   "deck": "vocab",
+   "lesson": 4,
+   "id": "vocab:ειναι"
+  },
+  {
+   "el": "είμαστε",
+   "ru": "мы есть",
+   "pos": "verb",
+   "deck": "vocab",
+   "lesson": 4,
+   "id": "vocab:ειμαστε"
+  },
+  {
+   "el": "είστε",
+   "ru": "вы есть",
+   "pos": "verb",
+   "alts": [
+    "είσαστε"
+   ],
+   "note": "Разговорный вариант — είσαστε.",
+   "deck": "vocab",
+   "lesson": 4,
+   "id": "vocab:ειστε"
+  },
+  {
+   "el": "καλά",
+   "ru": "хорошо",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:καλα"
+  },
+  {
+   "el": "χάλια",
+   "ru": "плохо, ужасно",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:χαλια"
+  },
+  {
+   "el": "εδώ",
+   "ru": "здесь",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:εδω"
+  },
+  {
+   "el": "εκεί",
+   "ru": "там",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:εκει"
+  },
+  {
+   "el": "μέσα",
+   "ru": "внутри",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:μεσα"
+  },
+  {
+   "el": "έξω",
+   "ru": "снаружи",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:εξω"
+  },
+  {
+   "el": "κοντά",
+   "ru": "близко",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:κοντα"
+  },
+  {
+   "el": "μακριά",
+   "ru": "далеко",
+   "pos": "adv",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:μακρια"
+  },
+  {
+   "el": "εγώ",
+   "ru": "я",
+   "pos": "pron",
+   "note": "При глаголе обычно не ставим. С εγώ — акцент: «это я, а не другие».",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:εγω"
+  },
+  {
+   "el": "εσύ",
+   "ru": "ты",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:εσυ"
+  },
+  {
+   "el": "αυτός",
+   "ru": "он",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:αυτοσ"
+  },
+  {
+   "el": "αυτή",
+   "ru": "она",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:αυτη"
+  },
+  {
+   "el": "αυτό",
+   "ru": "оно; это",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:αυτο"
+  },
+  {
+   "el": "εμείς",
+   "ru": "мы",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:εμεισ"
+  },
+  {
+   "el": "εσείς",
+   "ru": "вы",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:εσεισ"
+  },
+  {
+   "el": "αυτοί",
+   "ru": "они (м. р.)",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:αυτοι"
+  },
+  {
+   "el": "αυτές",
+   "ru": "они (ж. р.)",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:αυτεσ"
+  },
+  {
+   "el": "αυτά",
+   "ru": "они (ср. р.)",
+   "pos": "pron",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:αυτα"
+  },
+  {
+   "el": "δεν",
+   "ru": "не (перед глаголом)",
+   "pos": "part",
+   "note": "Δεν είμαι εδώ — я не здесь.",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:δεν"
+  },
+  {
+   "el": "όχι",
+   "ru": "нет",
+   "pos": "part",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:οχι"
+  },
+  {
+   "el": "και",
+   "ru": "и",
+   "pos": "conj",
+   "alts": [
+    "κι"
+   ],
+   "note": "Перед гласной часто κι: κι εγώ.",
+   "deck": "vocab",
+   "lesson": 5,
+   "id": "vocab:και"
+  },
+  {
+   "el": "δρόμος",
+   "ru": "дорога, улица",
+   "art": "ο",
+   "pos": "noun",
+   "note": "Аэродром, ипподром — тот же корень.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:δρομοσ"
+  },
+  {
+   "el": "θάλασσα",
+   "ru": "море",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:θαλασσα"
+  },
+  {
+   "el": "σπίτι",
+   "ru": "дом",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σπιτι"
+  },
+  {
+   "el": "Ευρώπη",
+   "ru": "Европа",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ευρωπη"
+  },
+  {
+   "el": "σχολείο",
+   "ru": "школа",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σχολειο"
+  },
+  {
+   "el": "φαρμακείο",
+   "ru": "аптека",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:φαρμακειο"
+  },
+  {
+   "el": "ήλιος",
+   "ru": "солнце",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ηλιοσ"
+  },
+  {
+   "el": "ουρανός",
+   "ru": "небо",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ουρανοσ"
+  },
+  {
+   "el": "όνομα",
+   "ru": "имя",
+   "art": "το",
+   "pos": "noun",
+   "note": "На -μα → средний род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ονομα"
+  },
+  {
+   "el": "μουσείο",
+   "ru": "музей",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:μουσειο"
+  },
+  {
+   "el": "εστιατόριο",
+   "ru": "ресторан",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:εστιατοριο"
+  },
+  {
+   "el": "περίπτερο",
+   "ru": "киоск",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:περιπτερο"
+  },
+  {
+   "el": "ταβέρνα",
+   "ru": "таверна",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ταβερνα"
+  },
+  {
+   "el": "νοσοκομείο",
+   "ru": "больница",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:νοσοκομειο"
+  },
+  {
+   "el": "φούρνος",
+   "ru": "печь; пекарня",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:φουρνοσ"
+  },
+  {
+   "el": "μαγαζί",
+   "ru": "магазин",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:μαγαζι"
+  },
+  {
+   "el": "θέατρο",
+   "ru": "театр",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:θεατρο"
+  },
+  {
+   "el": "ξενοδοχείο",
+   "ru": "гостиница, отель",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ξενοδοχειο"
+  },
+  {
+   "el": "Αθήνα",
+   "ru": "Афины",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:αθηνα"
+  },
+  {
+   "el": "Θεσσαλονίκη",
+   "ru": "Салоники",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:θεσσαλονικη"
+  },
+  {
+   "el": "καρέκλα",
+   "ru": "стул",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:καρεκλα"
+  },
+  {
+   "el": "κουτάλι",
+   "ru": "ложка",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:κουταλι"
+  },
+  {
+   "el": "πεθερός",
+   "ru": "тесть; свёкор",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:πεθεροσ"
+  },
+  {
+   "el": "πεθερά",
+   "ru": "тёща; свекровь",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:πεθερα"
+  },
+  {
+   "el": "αυγό",
+   "ru": "яйцо",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:αυγο"
+  },
+  {
+   "el": "κήπος",
+   "ru": "сад",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:κηποσ"
+  },
+  {
+   "el": "μήλο",
+   "ru": "яблоко",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:μηλο"
+  },
+  {
+   "el": "δέρμα",
+   "ru": "кожа",
+   "art": "το",
+   "pos": "noun",
+   "note": "На -μα → средний род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:δερμα"
+  },
+  {
+   "el": "ψάρι",
+   "ru": "рыба",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ψαρι"
+  },
+  {
+   "el": "σκύλος",
+   "ru": "собака",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σκυλοσ"
+  },
+  {
+   "el": "φούστα",
+   "ru": "юбка",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:φουστα"
+  },
+  {
+   "el": "φόρεμα",
+   "ru": "платье",
+   "art": "το",
+   "pos": "noun",
+   "note": "На -μα → средний род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:φορεμα"
+  },
+  {
+   "el": "ελιά",
+   "ru": "оливка; родинка",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ελια"
+  },
+  {
+   "el": "βήμα",
+   "ru": "шаг",
+   "art": "το",
+   "pos": "noun",
+   "note": "На -μα → средний род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:βημα"
+  },
+  {
+   "el": "μητέρα",
+   "ru": "мать",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:μητερα"
+  },
+  {
+   "el": "αναπτήρας",
+   "ru": "зажигалка",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:αναπτηρασ"
+  },
+  {
+   "el": "ψυγείο",
+   "ru": "холодильник",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ψυγειο"
+  },
+  {
+   "el": "πατέρας",
+   "ru": "отец",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:πατερασ"
+  },
+  {
+   "el": "σαπούνι",
+   "ru": "мыло",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σαπουνι"
+  },
+  {
+   "el": "όνειρο",
+   "ru": "сон; мечта",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ονειρο"
+  },
+  {
+   "el": "φίλος",
+   "ru": "друг",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:φιλοσ"
+  },
+  {
+   "el": "φίλη",
+   "ru": "подруга",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:φιλη"
+  },
+  {
+   "el": "φοιτητής",
+   "ru": "студент",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:φοιτητησ"
+  },
+  {
+   "el": "αεροπλάνο",
+   "ru": "самолёт",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:αεροπλανο"
+  },
+  {
+   "el": "πρόβλημα",
+   "ru": "проблема",
+   "art": "το",
+   "pos": "noun",
+   "note": "На -μα → средний род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:προβλημα"
+  },
+  {
+   "el": "Αμερική",
+   "ru": "Америка",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:αμερικη"
+  },
+  {
+   "el": "Σύνταγμα",
+   "ru": "конституция; площадь Синтагма",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:συνταγμα"
+  },
+  {
+   "el": "Έλληνας",
+   "ru": "грек",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ελληνασ"
+  },
+  {
+   "el": "Ελληνίδα",
+   "ru": "гречанка",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:ελληνιδα"
+  },
+  {
+   "el": "διαβατήριο",
+   "ru": "паспорт",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:διαβατηριο"
+  },
+  {
+   "el": "βιβλίο",
+   "ru": "книга",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:βιβλιο"
+  },
+  {
+   "el": "άντρας",
+   "ru": "мужчина; муж",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:αντρασ"
+  },
+  {
+   "el": "γιαούρτι",
+   "ru": "йогурт",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:γιαουρτι"
+  },
+  {
+   "el": "γράμμα",
+   "ru": "письмо; буква",
+   "art": "το",
+   "pos": "noun",
+   "note": "На -μα → средний род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:γραμμα"
+  },
+  {
+   "el": "σαλάτα",
+   "ru": "салат",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σαλατα"
+  },
+  {
+   "el": "μάθημα",
+   "ru": "урок, занятие",
+   "art": "το",
+   "pos": "noun",
+   "note": "Отсюда «математика».",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:μαθημα"
+  },
+  {
+   "el": "χυμός",
+   "ru": "сок",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:χυμοσ"
+  },
+  {
+   "el": "σελίδα",
+   "ru": "страница",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σελιδα"
+  },
+  {
+   "el": "Μεξικό",
+   "ru": "Мексика",
+   "art": "το",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:μεξικο"
+  },
+  {
+   "el": "γύρος",
+   "ru": "гирос; круг",
+   "art": "ο",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:γυροσ"
+  },
+  {
+   "el": "στάση",
+   "ru": "остановка",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σταση"
+  },
+  {
+   "el": "σοκολάτα",
+   "ru": "шоколад",
+   "art": "η",
+   "pos": "noun",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σοκολατα"
+  },
+  {
+   "el": "παιδί",
+   "ru": "ребёнок, дитя",
+   "art": "το",
+   "pos": "noun",
+   "note": "Мн. ч.: τα παιδιά.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:παιδι"
+  },
+  {
+   "el": "μαμά",
+   "ru": "мама",
+   "art": "η",
+   "pos": "noun",
+   "note": "Исключение: на -μα, но женский род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:μαμα"
+  },
+  {
+   "el": "Κύπρος",
+   "ru": "Кипр",
+   "art": "η",
+   "pos": "noun",
+   "note": "Ловушка: на -ος, но женский род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:κυπροσ"
+  },
+  {
+   "el": "Λεμεσός",
+   "ru": "Лимасол",
+   "art": "η",
+   "pos": "noun",
+   "note": "Ловушка: на -ος, но женский род.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:λεμεσοσ"
+  },
+  {
+   "el": "από",
+   "ru": "из, от",
+   "pos": "prep",
+   "note": "+ винительный: από τη Ρωσία — из России.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:απο"
+  },
+  {
+   "el": "με",
+   "ru": "с; на (транспорте); с помощью",
+   "pos": "prep",
+   "note": "Как англ. with / by: με τον Πέτρο, με το αυτοκίνητο.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:με"
+  },
+  {
+   "el": "για",
+   "ru": "для; за (цель); про",
+   "pos": "prep",
+   "note": "Как англ. for / about: για τον Πέτρο.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:για"
+  },
+  {
+   "el": "σε",
+   "ru": "в, на, к, у (где? куда?)",
+   "pos": "prep",
+   "note": "Сливается с артиклем: σε + τον = στον, σε + την = στην, σε + το = στο. Στην ταβέρνα, στο μουσείο.",
+   "deck": "vocab",
+   "lesson": 6,
+   "id": "vocab:σε"
+  },
+  {
+   "el": "Είμαι καλά.",
+   "ru": "Я хорошо. / У меня всё хорошо.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειμαι-καλα"
+  },
+  {
+   "el": "Είμαι εδώ.",
+   "ru": "Я здесь.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειμαι-εδω"
+  },
+  {
+   "el": "Είμαστε εκεί.",
+   "ru": "Мы там.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειμαστε-εκει"
+  },
+  {
+   "el": "Δεν είσαι μέσα;",
+   "ru": "Ты не внутри?",
+   "pos": "phrase",
+   "note": "Греческий знак вопроса — «;».",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:δεν-εισαι-μεσα"
+  },
+  {
+   "el": "Είναι κοντά.",
+   "ru": "Они близко.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειναι-κοντα"
+  },
+  {
+   "el": "Δεν είστε καλά;",
+   "ru": "Вы не в порядке?",
+   "pos": "phrase",
+   "alts": [
+    "Δεν είσαστε καλά;"
+   ],
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:δεν-ειστε-καλα"
+  },
+  {
+   "el": "Δεν είναι εδώ.",
+   "ru": "Она не здесь.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:δεν-ειναι-εδω"
+  },
+  {
+   "el": "Δεν είναι χάλια.",
+   "ru": "Он не плохо.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:δεν-ειναι-χαλια"
+  },
+  {
+   "el": "Είσαι έξω;",
+   "ru": "Ты снаружи?",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:εισαι-εξω"
+  },
+  {
+   "el": "Δεν είμαστε μακριά.",
+   "ru": "Мы не далеко.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:δεν-ειμαστε-μακρια"
+  },
+  {
+   "el": "Δεν είμαι εκεί.",
+   "ru": "Я не там.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:δεν-ειμαι-εκει"
+  },
+  {
+   "el": "Είστε κοντά;",
+   "ru": "Вы близко?",
+   "pos": "phrase",
+   "alts": [
+    "Είσαστε κοντά;"
+   ],
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειστε-κοντα"
+  },
+  {
+   "el": "Είναι εδώ.",
+   "ru": "Они здесь.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειναι-εδω"
+  },
+  {
+   "el": "Είσαι καλά;",
+   "ru": "Ты в порядке?",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:εισαι-καλα"
+  },
+  {
+   "el": "Είμαι μέσα.",
+   "ru": "Я внутри.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειμαι-μεσα"
+  },
+  {
+   "el": "Είναι μακριά.",
+   "ru": "Она далеко.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ειναι-μακρια"
+  },
+  {
+   "el": "Από 'δώ η Βέρα.",
+   "ru": "Знакомьтесь, это Вера.",
+   "pos": "phrase",
+   "alts": [
+    "Από δω η Βέρα.",
+    "Απ' εδώ η Βέρα."
+   ],
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:απο-δω-η-βερα"
+  },
+  {
+   "el": "Έλα! Εδώ είμαστε.",
+   "ru": "Иди сюда! Мы здесь.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:ελα-εδω-ειμαστε"
+  },
+  {
+   "el": "Όχι, δεν είμαι η Μελέκ.",
+   "ru": "Нет, я не Мелек.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:οχι-δεν-ειμαι-η-μελεκ"
+  },
+  {
+   "el": "Εγώ είμαι η Μελέκ.",
+   "ru": "Мелек — это я.",
+   "pos": "phrase",
+   "note": "Εγώ даёт акцент: именно я.",
+   "deck": "phrases",
+   "lesson": 5,
+   "id": "phrases:εγω-ειμαι-η-μελεκ"
+  },
+  {
+   "el": "Γεια σας.",
+   "ru": "Здравствуйте. / До свидания. (на «вы»)",
+   "pos": "phrase",
+   "note": "Букв. «здоровья вам». В любое время суток.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:γεια-σασ"
+  },
+  {
+   "el": "Γεια σου.",
+   "ru": "Привет. / Пока. (на «ты»)",
+   "pos": "phrase",
+   "note": "σου — «тебе». Не путать с γεια σας.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:γεια-σου"
+  },
+  {
+   "el": "Γεια.",
+   "ru": "Привет. / Пока.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:γεια"
+  },
+  {
+   "el": "Καλημέρα.",
+   "ru": "Добрый день (с утра).",
+   "pos": "phrase",
+   "note": "μέρα — день. Говорят с рассвета, не только утром.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:καλημερα"
+  },
+  {
+   "el": "Καλησπέρα.",
+   "ru": "Добрый вечер.",
+   "pos": "phrase",
+   "note": "На Кипре — уже с полудня.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:καλησπερα"
+  },
+  {
+   "el": "Χαίρετε.",
+   "ru": "Приветствую вас. / Всего доброго. (официально)",
+   "pos": "phrase",
+   "note": "Только на «вы», максимально официально.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:χαιρετε"
+  },
+  {
+   "el": "Αντίο.",
+   "ru": "До свидания.",
+   "pos": "phrase",
+   "note": "На Кипре звучит скорее как «прощайте».",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:αντιο"
+  },
+  {
+   "el": "Καληνύχτα.",
+   "ru": "Спокойной ночи.",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:καληνυχτα"
+  },
+  {
+   "el": "Χαίρω πολύ.",
+   "ru": "Приятно познакомиться.",
+   "pos": "phrase",
+   "note": "Только при знакомстве. Букв. «радуюсь очень».",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:χαιρω-πολυ"
+  },
+  {
+   "el": "Χάρηκα.",
+   "ru": "Рад(а) был(а) познакомиться.",
+   "pos": "phrase",
+   "note": "Чаще в конце разговора.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:χαρηκα"
+  },
+  {
+   "el": "Κι εγώ.",
+   "ru": "И я (тоже).",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:κι-εγω"
+  },
+  {
+   "el": "Πώς σε λένε;",
+   "ru": "Как тебя зовут?",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:πωσ-σε-λενε"
+  },
+  {
+   "el": "Πώς σας λένε;",
+   "ru": "Как вас зовут?",
+   "pos": "phrase",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:πωσ-σασ-λενε"
+  },
+  {
+   "el": "Εσένα;",
+   "ru": "А тебя?",
+   "pos": "phrase",
+   "note": "Переброс вопроса без глагола: σε → εσένα.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:εσενα"
+  },
+  {
+   "el": "Εσάς;",
+   "ru": "А вас?",
+   "pos": "phrase",
+   "note": "Переброс вопроса без глагола: σας → εσάς.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:εσασ"
+  },
+  {
+   "el": "Με λένε Μαρία.",
+   "ru": "Меня зовут Мария.",
+   "pos": "phrase",
+   "note": "После με λένε — без артикля.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:με-λενε-μαρια"
+  },
+  {
+   "el": "Με λένε Γιάννη.",
+   "ru": "Меня зовут Янис.",
+   "pos": "phrase",
+   "note": "Мужские имена теряют -ς (винительный падеж): Γιάννης → Γιάννη.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:με-λενε-γιαννη"
+  },
+  {
+   "el": "Λέγομαι Κώστας Κανάκης.",
+   "ru": "Меня зовут Костас Канакис. (официально)",
+   "pos": "phrase",
+   "note": "Λέγομαι — «я зовусь», имя в именительном падеже.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:λεγομαι-κωστασ-κανακησ"
+  },
+  {
+   "el": "Είμαι ο Κώστας.",
+   "ru": "Я Костас.",
+   "pos": "phrase",
+   "note": "С είμαι имя ставится с артиклем: ο — мужской род.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:ειμαι-ο-κωστασ"
+  },
+  {
+   "el": "Είμαι η Μαρία.",
+   "ru": "Я Мария.",
+   "pos": "phrase",
+   "note": "С είμαι имя ставится с артиклем: η — женский род.",
+   "deck": "phrases",
+   "lesson": 6,
+   "id": "phrases:ειμαι-η-μαρια"
+  },
+  {
+   "el": "πλοίο",
+   "ru": "корабль",
+   "art": "το",
+   "pos": "noun",
+   "tr": "плИо",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:πλοιο"
+  },
+  {
+   "el": "πλησιάζω",
+   "ru": "приближаться",
+   "pos": "verb",
+   "tr": "плисЯзо",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:πλησιαζω"
+  },
+  {
+   "el": "μοίρα",
+   "ru": "судьба",
+   "art": "η",
+   "pos": "noun",
+   "tr": "мИра",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μοιρα"
+  },
+  {
+   "el": "μοιάζω",
+   "ru": "быть похожим",
+   "pos": "verb",
+   "tr": "мьЯзо",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μοιαζω"
+  },
+  {
+   "el": "ειρωνεία",
+   "ru": "ирония",
+   "art": "η",
+   "pos": "noun",
+   "tr": "иронИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ειρωνεια"
+  },
+  {
+   "el": "οικογένεια",
+   "ru": "семья",
+   "art": "η",
+   "pos": "noun",
+   "tr": "икойЕнья",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:οικογενεια"
+  },
+  {
+   "el": "πουλί",
+   "ru": "птица",
+   "art": "το",
+   "pos": "noun",
+   "tr": "пулИ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:πουλι"
+  },
+  {
+   "el": "δουλειά",
+   "ru": "работа",
+   "art": "η",
+   "pos": "noun",
+   "tr": "ðулЯ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:δουλεια"
+  },
+  {
+   "el": "λεία",
+   "ru": "добыча; гладкая (ж. р.)",
+   "pos": "noun",
+   "tr": "лИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:λεια"
+  },
+  {
+   "el": "παιδεία",
+   "ru": "образование",
+   "art": "η",
+   "pos": "noun",
+   "tr": "пеðИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:παιδεια"
+  },
+  {
+   "el": "παιδιά",
+   "ru": "дети",
+   "art": "τα",
+   "pos": "noun",
+   "tr": "пеðЯ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:παιδια"
+  },
+  {
+   "el": "υπουργείο",
+   "ru": "министерство",
+   "art": "το",
+   "pos": "noun",
+   "tr": "ипурйИо",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:υπουργειο"
+  },
+  {
+   "el": "γιος",
+   "ru": "сын",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "йос",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:γιοσ"
+  },
+  {
+   "el": "εταιρεία",
+   "ru": "компания, фирма",
+   "art": "η",
+   "pos": "noun",
+   "tr": "этерИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:εταιρεια"
+  },
+  {
+   "el": "προσπάθεια",
+   "ru": "попытка, усилие",
+   "art": "η",
+   "pos": "noun",
+   "tr": "проспАθья",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:προσπαθεια"
+  },
+  {
+   "el": "θείος",
+   "ru": "дядя",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "θИос",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:θειοσ"
+  },
+  {
+   "el": "θεία",
+   "ru": "тётя",
+   "art": "η",
+   "pos": "noun",
+   "tr": "θИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:θεια"
+  },
+  {
+   "el": "ηθοποιός",
+   "ru": "актёр, актриса",
+   "art": "ο/η",
+   "pos": "noun",
+   "tr": "иθопиОс",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ηθοποιοσ"
+  },
+  {
+   "el": "παλιά",
+   "ru": "раньше, в старину; старые",
+   "pos": "adv",
+   "tr": "палЯ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:παλια"
+  },
+  {
+   "el": "ακρογιαλιά",
+   "ru": "побережье, взморье",
+   "art": "η",
+   "pos": "noun",
+   "tr": "акройалЯ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ακρογιαλια"
+  },
+  {
+   "el": "στενοχωριέμαι",
+   "ru": "расстраиваться, грустить",
+   "pos": "verb",
+   "tr": "стенохорьЕме",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:στενοχωριεμαι"
+  },
+  {
+   "el": "οίκος",
+   "ru": "дом (книжн.); фирма",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "Икос",
+   "note": "Οίκος μόδας — дом моды.",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:οικοσ"
+  },
+  {
+   "el": "στοίχος",
+   "ru": "ряд, шеренга",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "стИхос",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:στοιχοσ"
+  },
+  {
+   "el": "μαγιονέζα",
+   "ru": "майонез",
+   "art": "η",
+   "pos": "noun",
+   "tr": "майонЕза",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μαγιονεζα"
+  },
+  {
+   "el": "μάγειρας",
+   "ru": "повар",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "мАйирас",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μαγειρασ"
+  },
+  {
+   "el": "μαγεία",
+   "ru": "магия, волшебство",
+   "art": "η",
+   "pos": "noun",
+   "tr": "майИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μαγεια"
+  },
+  {
+   "el": "μαγιά",
+   "ru": "дрожжи",
+   "art": "η",
+   "pos": "noun",
+   "tr": "майЯ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μαγια"
+  },
+  {
+   "el": "ευχαριστώ",
+   "ru": "спасибо",
+   "pos": "phrase",
+   "tr": "эфхаристО",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ευχαριστω"
+  },
+  {
+   "el": "ευθύνη",
+   "ru": "ответственность",
+   "art": "η",
+   "pos": "noun",
+   "tr": "эфθИни",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ευθυνη"
+  },
+  {
+   "el": "ρεύμα",
+   "ru": "электричество, ток; течение",
+   "art": "το",
+   "pos": "noun",
+   "tr": "рЕвма",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ρευμα"
+  },
+  {
+   "el": "ψεύτικο",
+   "ru": "фальшивый, ненастоящий (ср. р.)",
+   "pos": "adj",
+   "tr": "псЕфтико",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ψευτικο"
+  },
+  {
+   "el": "αυγή",
+   "ru": "рассвет",
+   "art": "η",
+   "pos": "noun",
+   "tr": "авйИ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:αυγη"
+  },
+  {
+   "el": "αυλή",
+   "ru": "двор",
+   "art": "η",
+   "pos": "noun",
+   "tr": "авлИ",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:αυλη"
+  },
+  {
+   "el": "αυλαία",
+   "ru": "занавес (в театре)",
+   "art": "η",
+   "pos": "noun",
+   "tr": "авлЕа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:αυλαια"
+  },
+  {
+   "el": "τεύχος",
+   "ru": "номер, выпуск (журнала)",
+   "art": "το",
+   "pos": "noun",
+   "tr": "тЕфхос",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:τευχοσ"
+  },
+  {
+   "el": "γεύση",
+   "ru": "вкус",
+   "art": "η",
+   "pos": "noun",
+   "tr": "йЕфси",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:γευση"
+  },
+  {
+   "el": "απόγευμα",
+   "ru": "время после полудня",
+   "art": "το",
+   "pos": "noun",
+   "tr": "апОйевма",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:απογευμα"
+  },
+  {
+   "el": "σαύρα",
+   "ru": "ящерица",
+   "art": "η",
+   "pos": "noun",
+   "tr": "сАвра",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:σαυρα"
+  },
+  {
+   "el": "μαύρος",
+   "ru": "чёрный",
+   "pos": "adj",
+   "tr": "мАврос",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μαυροσ"
+  },
+  {
+   "el": "ταύρος",
+   "ru": "бык",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "тАврос",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ταυροσ"
+  },
+  {
+   "el": "ταυτόχρονα",
+   "ru": "одновременно",
+   "pos": "adv",
+   "tr": "тафтОхрона",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ταυτοχρονα"
+  },
+  {
+   "el": "ταυτότητα",
+   "ru": "удостоверение личности; идентичность",
+   "art": "η",
+   "pos": "noun",
+   "tr": "тафтОтита",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ταυτοτητα"
+  },
+  {
+   "el": "μπορούμε",
+   "ru": "мы можем",
+   "pos": "verb",
+   "tr": "борУме",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μπορουμε"
+  },
+  {
+   "el": "μπορώ",
+   "ru": "я могу",
+   "pos": "verb",
+   "tr": "борО",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μπορω"
+  },
+  {
+   "el": "μπράβο",
+   "ru": "браво, молодец",
+   "pos": "phrase",
+   "tr": "брАво",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μπραβο"
+  },
+  {
+   "el": "μπροστά",
+   "ru": "впереди, перед",
+   "pos": "adv",
+   "tr": "бростА",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:μπροστα"
+  },
+  {
+   "el": "αμπέλι",
+   "ru": "виноградник",
+   "art": "το",
+   "pos": "noun",
+   "tr": "амбЕли",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:αμπελι"
+  },
+  {
+   "el": "εμπειρία",
+   "ru": "опыт",
+   "art": "η",
+   "pos": "noun",
+   "tr": "эмбирИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:εμπειρια"
+  },
+  {
+   "el": "εμπιστοσύνη",
+   "ru": "доверие",
+   "art": "η",
+   "pos": "noun",
+   "tr": "эмбистосИни",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:εμπιστοσυνη"
+  },
+  {
+   "el": "ομπρέλα",
+   "ru": "зонт",
+   "art": "η",
+   "pos": "noun",
+   "tr": "омбрЕла",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ομπρελα"
+  },
+  {
+   "el": "τούμπανο",
+   "ru": "барабан",
+   "art": "το",
+   "pos": "noun",
+   "tr": "тУмбано",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:τουμπανο"
+  },
+  {
+   "el": "κάμπος",
+   "ru": "равнина",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "кАмбос",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:καμποσ"
+  },
+  {
+   "el": "λάμπα",
+   "ru": "лампа",
+   "art": "η",
+   "pos": "noun",
+   "tr": "лАмба",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:λαμπα"
+  },
+  {
+   "el": "ντομάτα",
+   "ru": "помидор",
+   "art": "η",
+   "pos": "noun",
+   "tr": "домАта",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ντοματα"
+  },
+  {
+   "el": "ντοκιμαντέρ",
+   "ru": "документальный фильм",
+   "art": "το",
+   "pos": "noun",
+   "tr": "докимандЕр",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ντοκιμαντερ"
+  },
+  {
+   "el": "ντιβάνι",
+   "ru": "диван, тахта",
+   "art": "το",
+   "pos": "noun",
+   "tr": "дивАни",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ντιβανι"
+  },
+  {
+   "el": "ντόμινο",
+   "ru": "домино",
+   "art": "το",
+   "pos": "noun",
+   "tr": "дОмино",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:ντομινο"
+  },
+  {
+   "el": "χοντρός",
+   "ru": "толстый",
+   "pos": "adj",
+   "tr": "хондрОс",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:χοντροσ"
+  },
+  {
+   "el": "κοντινό",
+   "ru": "близкий, ближайший (ср. р.)",
+   "pos": "adj",
+   "tr": "кондинО",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:κοντινο"
+  },
+  {
+   "el": "δαντέλα",
+   "ru": "кружево",
+   "art": "η",
+   "pos": "noun",
+   "tr": "ðандЕла",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:δαντελα"
+  },
+  {
+   "el": "φαντασία",
+   "ru": "фантазия, воображение",
+   "art": "η",
+   "pos": "noun",
+   "tr": "фандасИа",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:φαντασια"
+  },
+  {
+   "el": "φόντο",
+   "ru": "фон",
+   "art": "το",
+   "pos": "noun",
+   "tr": "фОндо",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:φοντο"
+  },
+  {
+   "el": "δόντια",
+   "ru": "зубы",
+   "art": "τα",
+   "pos": "noun",
+   "tr": "ðОндя",
+   "deck": "reading",
+   "lesson": 3,
+   "id": "reading:δοντια"
+  },
+  {
+   "el": "αγγούρι",
+   "ru": "огурец",
+   "art": "το",
+   "pos": "noun",
+   "tr": "ангУри",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:αγγουρι"
+  },
+  {
+   "el": "Αγγλία",
+   "ru": "Англия",
+   "art": "η",
+   "pos": "noun",
+   "tr": "англИа",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:αγγλια"
+  },
+  {
+   "el": "αγγελία",
+   "ru": "объявление",
+   "art": "η",
+   "pos": "noun",
+   "tr": "ангьелИа",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:αγγελια"
+  },
+  {
+   "el": "γκολ",
+   "ru": "гол",
+   "art": "το",
+   "pos": "noun",
+   "tr": "гол",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:γκολ"
+  },
+  {
+   "el": "γκρι",
+   "ru": "серый",
+   "pos": "adj",
+   "tr": "гри",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:γκρι"
+  },
+  {
+   "el": "όγκος",
+   "ru": "объём, масса",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "Онгос",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:ογκοσ"
+  },
+  {
+   "el": "φεγγάρι",
+   "ru": "луна",
+   "art": "το",
+   "pos": "noun",
+   "tr": "фенгАри",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:φεγγαρι"
+  },
+  {
+   "el": "πιγκουίνος",
+   "ru": "пингвин",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "пингуИнос",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:πιγκουινοσ"
+  },
+  {
+   "el": "καγκουρό",
+   "ru": "кенгуру",
+   "art": "το",
+   "pos": "noun",
+   "tr": "кангурО",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:καγκουρο"
+  },
+  {
+   "el": "εγγονός",
+   "ru": "внук",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "энгонОс",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:εγγονοσ"
+  },
+  {
+   "el": "δαγκώνω",
+   "ru": "кусать",
+   "pos": "verb",
+   "tr": "ðангОно",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:δαγκωνω"
+  },
+  {
+   "el": "εγχειρίδιο",
+   "ru": "руководство, справочник",
+   "art": "το",
+   "pos": "noun",
+   "tr": "энхирИðио",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:εγχειριδιο"
+  },
+  {
+   "el": "συγγραφέας",
+   "ru": "писатель, писательница",
+   "art": "ο/η",
+   "pos": "noun",
+   "tr": "синграфЕас",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:συγγραφεασ"
+  },
+  {
+   "el": "ελέγχω",
+   "ru": "проверять, контролировать",
+   "pos": "verb",
+   "tr": "элЕнхо",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:ελεγχω"
+  },
+  {
+   "el": "συγχαρητήρια",
+   "ru": "поздравляю!",
+   "pos": "phrase",
+   "tr": "синхаритИрья",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:συγχαρητηρια"
+  },
+  {
+   "el": "συγχωρείτε",
+   "ru": "извините",
+   "pos": "phrase",
+   "tr": "синхорИте",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:συγχωρειτε"
+  },
+  {
+   "el": "σύγχρονος",
+   "ru": "современный",
+   "pos": "adj",
+   "tr": "сИнхронос",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:συγχρονοσ"
+  },
+  {
+   "el": "τζάκι",
+   "ru": "камин",
+   "art": "το",
+   "pos": "noun",
+   "tr": "дзАки",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τζακι"
+  },
+  {
+   "el": "τζάμι",
+   "ru": "оконное стекло",
+   "art": "το",
+   "pos": "noun",
+   "tr": "дзАми",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τζαμι"
+  },
+  {
+   "el": "τσακάλι",
+   "ru": "шакал",
+   "art": "το",
+   "pos": "noun",
+   "tr": "цакАли",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τσακαλι"
+  },
+  {
+   "el": "ράτσα",
+   "ru": "порода, раса",
+   "art": "η",
+   "pos": "noun",
+   "tr": "рАца",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:ρατσα"
+  },
+  {
+   "el": "μπρούντζο",
+   "ru": "бронза",
+   "pos": "noun",
+   "tr": "брУндзо",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:μπρουντζο"
+  },
+  {
+   "el": "τζαζ",
+   "ru": "джаз",
+   "art": "η",
+   "pos": "noun",
+   "tr": "дзаз",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τζαζ"
+  },
+  {
+   "el": "τσουνάμι",
+   "ru": "цунами",
+   "art": "το",
+   "pos": "noun",
+   "tr": "цунАми",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τσουναμι"
+  },
+  {
+   "el": "τσουρέκι",
+   "ru": "цуреки (сладкая сдобная булка)",
+   "art": "το",
+   "pos": "noun",
+   "tr": "цурЕки",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τσουρεκι"
+  },
+  {
+   "el": "τσίρκο",
+   "ru": "цирк",
+   "art": "το",
+   "pos": "noun",
+   "tr": "цИрко",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τσιρκο"
+  },
+  {
+   "el": "Τζαμάικα",
+   "ru": "Ямайка",
+   "art": "η",
+   "pos": "noun",
+   "tr": "дзамАика",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τζαμαικα"
+  },
+  {
+   "el": "τζίτζικας",
+   "ru": "цикада",
+   "art": "ο",
+   "pos": "noun",
+   "tr": "дзИдзикас",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:τζιτζικασ"
+  },
+  {
+   "el": "ατζέντα",
+   "ru": "ежедневник; повестка дня",
+   "art": "η",
+   "pos": "noun",
+   "tr": "адзЕнда",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:ατζεντα"
+  },
+  {
+   "el": "ατσάλι",
+   "ru": "сталь",
+   "art": "το",
+   "pos": "noun",
+   "tr": "ацАли",
+   "deck": "reading",
+   "lesson": 4,
+   "id": "reading:ατσαλι"
+  },
+  {
+   "el": "Α α",
+   "ru": "альфа — [а]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:α-α"
+  },
+  {
+   "el": "Β β",
+   "ru": "вита — [в]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:β-β"
+  },
+  {
+   "el": "Γ γ",
+   "ru": "гамма — [ɣ] мягкое фрикативное «г»; перед э/и — [й]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:γ-γ"
+  },
+  {
+   "el": "Δ δ",
+   "ru": "дельта — [ð], как th в this",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:δ-δ"
+  },
+  {
+   "el": "Ε ε",
+   "ru": "эпсилон — [э]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ε-ε"
+  },
+  {
+   "el": "Ζ ζ",
+   "ru": "зита — [з]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ζ-ζ"
+  },
+  {
+   "el": "Η η",
+   "ru": "ита — [и]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:η-η"
+  },
+  {
+   "el": "Θ θ",
+   "ru": "тита — [θ], как th в think",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:θ-θ"
+  },
+  {
+   "el": "Ι ι",
+   "ru": "йота — [и]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ι-ι"
+  },
+  {
+   "el": "Κ κ",
+   "ru": "каппа — [к]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:κ-κ"
+  },
+  {
+   "el": "Λ λ",
+   "ru": "ламда — [л]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:λ-λ"
+  },
+  {
+   "el": "Μ μ",
+   "ru": "ми — [м]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:μ-μ"
+  },
+  {
+   "el": "Ν ν",
+   "ru": "ни — [н]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ν-ν"
+  },
+  {
+   "el": "Ξ ξ",
+   "ru": "кси — [кс]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ξ-ξ"
+  },
+  {
+   "el": "Ο ο",
+   "ru": "омикрон — [о]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ο-ο"
+  },
+  {
+   "el": "Π π",
+   "ru": "пи — [п]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:π-π"
+  },
+  {
+   "el": "Ρ ρ",
+   "ru": "ро — [р]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ρ-ρ"
+  },
+  {
+   "el": "Σ σ ς",
+   "ru": "сигма — [с]; ς только в конце слова",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:σ-σ-σ"
+  },
+  {
+   "el": "Τ τ",
+   "ru": "таф — [т]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:τ-τ"
+  },
+  {
+   "el": "Υ υ",
+   "ru": "ипсилон — [и]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:υ-υ"
+  },
+  {
+   "el": "Φ φ",
+   "ru": "фи — [ф]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:φ-φ"
+  },
+  {
+   "el": "Χ χ",
+   "ru": "хи — [х]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:χ-χ"
+  },
+  {
+   "el": "Ψ ψ",
+   "ru": "пси — [пс]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ψ-ψ"
+  },
+  {
+   "el": "Ω ω",
+   "ru": "омега — [о]",
+   "pos": "letter",
+   "deck": "rules",
+   "lesson": 1,
+   "id": "rules:ω-ω"
+  },
+  {
+   "el": "ου",
+   "ru": "[у]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:ου"
+  },
+  {
+   "el": "αι",
+   "ru": "[э]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:αι"
+  },
+  {
+   "el": "ει",
+   "ru": "[и]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:ει"
+  },
+  {
+   "el": "οι",
+   "ru": "[и]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:οι"
+  },
+  {
+   "el": "αυ",
+   "ru": "[ав] перед гласной и звонкой; [аф] перед глухой",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:αυ"
+  },
+  {
+   "el": "ευ",
+   "ru": "[эв] перед гласной и звонкой; [эф] перед глухой",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:ευ"
+  },
+  {
+   "el": "μπ",
+   "ru": "[б] в начале и в иностранных словах; [мб] в середине",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:μπ"
+  },
+  {
+   "el": "ντ",
+   "ru": "[д] в начале и в иностранных словах; [нд] в середине",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:ντ"
+  },
+  {
+   "el": "γκ",
+   "ru": "[г] в начале и в иностранных словах; [нг] в середине",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:γκ"
+  },
+  {
+   "el": "γγ",
+   "ru": "[нг]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:γγ"
+  },
+  {
+   "el": "γχ",
+   "ru": "[нх]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:γχ"
+  },
+  {
+   "el": "τσ",
+   "ru": "[ц]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:τσ"
+  },
+  {
+   "el": "τζ",
+   "ru": "[дз]",
+   "pos": "combo",
+   "deck": "rules",
+   "lesson": 2,
+   "id": "rules:τζ"
+  },
+  {
+   "el": "ι",
+   "ru": "и",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ι",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "η",
+   "ru": "и",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-η",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "υ",
+   "ru": "и",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-υ",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ια",
+   "ru": "йа (я)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ια",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιο",
+   "ru": "йо (ё)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιο",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιε",
+   "ru": "йэ (е)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιε",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιου",
+   "ru": "йу (ю)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιου",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιά",
+   "ru": "йа (я)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιά",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιό",
+   "ru": "йо (ё)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιό",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιέ",
+   "ru": "йэ (е)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιέ",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιού",
+   "ru": "йу (ю)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιού",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιω",
+   "ru": "йо (ё)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιω",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ία",
+   "ru": "иа",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ία",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ίο",
+   "ru": "ио",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ίο",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ίε",
+   "ru": "иэ",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ίε",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ίου",
+   "ru": "иу",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ίου",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ίω",
+   "ru": "ио",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ίω",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "εια",
+   "ru": "йа (я)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-εια",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειο",
+   "ru": "йо (ё)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειο",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειε",
+   "ru": "йэ (е)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειε",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οια",
+   "ru": "йа (я)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οια",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "άι",
+   "ru": "аи",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-άι",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "εία",
+   "ru": "иа",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-εία",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "είου",
+   "ru": "иу",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-είου",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "είο",
+   "ru": "ио",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-είο",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "υα",
+   "ru": "йа (я)",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-υα",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ίοι",
+   "ru": "ии",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ίοι",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οιε",
+   "ru": "йэ",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οιε",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οιέ",
+   "ru": "йэ",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οιέ",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οίε",
+   "ru": "иэ",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οίε",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "όι",
+   "ru": "ои",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-όι",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειοί",
+   "ru": "йи",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειοί",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιοί",
+   "ru": "йи",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιοί",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οιοι",
+   "ru": "йи",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οιοι",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οιοί",
+   "ru": "йи",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οιοί",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οίοι",
+   "ru": "ии",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οίοι",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "είοι",
+   "ru": "ии",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-είοι",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "είε",
+   "ru": "иэ",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-είε",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οίω",
+   "ru": "ио",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οίω",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οιώ",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οιώ",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ιώ",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ιώ",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "αί",
+   "ru": "э",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-αί",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "είω",
+   "ru": "ио",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-είω",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειω",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειω",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειώ",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειώ",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οιω",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οιω",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειά",
+   "ru": "йа",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειά",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειό",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειό",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ειέ",
+   "ru": "йэ",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ειέ",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οία",
+   "ru": "иа",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οία",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "οιά",
+   "ru": "йа",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-οιά",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "υό",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-υό",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "υο",
+   "ru": "йо",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-υο",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "ύο",
+   "ru": "ио",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-ύο",
+   "deck": "rules",
+   "lesson": 3
+  },
+  {
+   "el": "υά",
+   "ru": "йа",
+   "pos": "combo",
+   "note": "Карточки дифтонгов и сочетаний (24.09).",
+   "id": "rules:combo-υά",
+   "deck": "rules",
+   "lesson": 3
+  }
+ ]
+}
