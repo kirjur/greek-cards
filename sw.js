@@ -1,5 +1,5 @@
 // Offline cache: app shell is stale-while-revalidate, data/*.json and config.js are network-first.
-const VERSION = 'gk-v3';
+const VERSION = 'gk-v4';
 const SHELL = [
 	'./',
 	'./index.html',
@@ -17,7 +17,8 @@ const SHELL = [
 ];
 
 self.addEventListener('install', (e) => {
-	e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()));
+	// cache: 'reload' bypasses the HTTP cache (GitHub Pages sends max-age=600), so a new version gets fresh files
+	e.waitUntil(caches.open(VERSION).then((c) => c.addAll(SHELL.map((u) => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -35,7 +36,7 @@ self.addEventListener('fetch', (e) => {
 
 	if (url.pathname.includes('/data/') || url.pathname.endsWith('/config.js')) {
 		e.respondWith(
-			fetch(req)
+			fetch(new Request(req.url, { cache: 'no-cache' }))
 				.then((res) => {
 					if (res.ok) {
 						const copy = res.clone();
@@ -50,7 +51,7 @@ self.addEventListener('fetch', (e) => {
 
 	e.respondWith(
 		caches.match(req, { ignoreSearch: true }).then((cached) => {
-			const fresh = fetch(req)
+			const fresh = fetch(new Request(req.url, { cache: 'no-cache' }))
 				.then((res) => {
 					if (res.ok) {
 						const copy = res.clone();

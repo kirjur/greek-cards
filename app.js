@@ -1431,7 +1431,15 @@ async function boot() {
 	sync().then((changed) => changed && rerender());
 	navigator.storage?.persist?.().catch(() => {});
 	if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-		navigator.serviceWorker.register('sw.js').catch(() => {});
+		// a new version took over: reload once so the fresh app.js runs (not in the middle of a session)
+		const hadController = Boolean(navigator.serviceWorker.controller);
+		let reloading = false;
+		navigator.serviceWorker.addEventListener('controllerchange', () => {
+			if (!hadController || reloading || !$session.hidden) return;
+			reloading = true;
+			location.reload();
+		});
+		navigator.serviceWorker.register('sw.js').then((r) => r.update()).catch(() => {});
 	}
 }
 
