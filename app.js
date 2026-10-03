@@ -353,6 +353,10 @@ function pickVoice() {
 function speak(text) {
 	if (!('speechSynthesis' in window) || !text) return;
 	const synth = window.speechSynthesis;
+	try {
+		// iOS Safari mutes web audio when the silent switch is on; 'playback' behaves like a media app
+		if (navigator.audioSession && navigator.audioSession.type !== 'playback') navigator.audioSession.type = 'playback';
+	} catch {}
 	if (synth.speaking || synth.pending) synth.cancel();
 	if (synth.paused) synth.resume(); // iOS sometimes leaves the queue paused after backgrounding
 	const clean = String(text).replace(/\s+/g, ' ').trim();
@@ -944,6 +948,7 @@ function renderSettings() {
 			<div class="srow"><div class="grow">Скорость</div><input type="range" id="rate" min="0.6" max="1.1" step="0.05" value="${SETTINGS.rate}"></div>
 			<div class="srow" id="voice-row"><div class="grow">Голос</div>${voices}<button class="icon-btn" data-speak="Καλημέρα! Είμαι εδώ." aria-label="Проверить голос">${SPEAKER_SVG}</button></div>
 			${VOICES.length ? '' : '<div class="srow"><div class="grow sub">На iPhone: Настройки → Универсальный доступ → Устный контент → Голоса → Греческий (Melina).</div></div>'}
+			<div class="srow"><div class="grow sub">Нет звука на iPhone? Проверь, не включён ли беззвучный режим — Safari в нём может молчать.</div></div>
 		</div>
 		<div class="section-title">Данные</div>
 		<div class="list settings">

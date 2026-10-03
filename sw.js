@@ -1,5 +1,5 @@
 // Offline cache: app shell is stale-while-revalidate, data/*.json and config.js are network-first.
-const VERSION = 'gk-v4';
+const VERSION = 'gk-v5';
 const SHELL = [
 	'./',
 	'./index.html',
