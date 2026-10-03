@@ -321,13 +321,33 @@ const VERDICTS = {
 let VOICES = [];
 // iOS also ships novelty/Eloquence voices; never pick them automatically
 const ODD_VOICES = /\b(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox)\b/i;
+function greekVoices() {
+	if (!('speechSynthesis' in window)) return [];
+	return speechSynthesis.getVoices().filter((v) => (v.lang || '').toLowerCase().replace('_', '-').startsWith('el') && !ODD_VOICES.test(v.name));
+}
 function loadVoices() {
-	if (!('speechSynthesis' in window)) return;
-	VOICES = speechSynthesis.getVoices().filter((v) => (v.lang || '').toLowerCase().replace('_', '-').startsWith('el') && !ODD_VOICES.test(v.name));
+	const had = VOICES.length;
+	VOICES = greekVoices();
+	// Safari fills the list late: redraw settings once voices appear
+	if (!had && VOICES.length && TAB === 'stats' && !SUBVIEW && document.getElementById('voice-row')) renderStats();
 }
 if ('speechSynthesis' in window) {
-	loadVoices();
-	speechSynthesis.addEventListener?.('voiceschanged', loadVoices);
+	// Safari doesn't reliably fire `voiceschanged` via addEventListener — use the property and poll a bit
+	speechSynthesis.onvoiceschanged = loadVoices;
+	[0, 300, 1000, 3000].forEach((ms) => setTimeout(loadVoices, ms));
+}
+
+function voiceLabel(v) {
+	const id = `${v.voiceURI} ${v.name}`;
+	const q = /premium/i.test(id) ? ' — премиум' : /enhanced/i.test(id) ? ' — улучшенный' : /compact/i.test(id) ? ' — компактный' : '';
+	return v.name + q;
+}
+
+/** Fresh voice object every time: Safari ignores stale SpeechSynthesisVoice objects. */
+function pickVoice() {
+	if (!SETTINGS.voice) return null;
+	const list = greekVoices();
+	return list.find((v) => v.voiceURI === SETTINGS.voice) || list.find((v) => v.name === SETTINGS.voiceName) || null;
 }
 
 function speak(text) {
@@ -339,12 +359,15 @@ function speak(text) {
 	// long texts are split into sentences: iOS may cut off very long utterances
 	const parts = clean.length > 180 ? clean.match(/[^.!;;…]+[.!;;…]*/g) || [clean] : [clean];
 	// only force a voice the user picked explicitly; otherwise iOS uses its default Greek voice
-	const voice = SETTINGS.voice ? VOICES.find((v) => v.voiceURI === SETTINGS.voice) : null;
+	const voice = pickVoice();
 	for (const part of parts) {
 		const u = new SpeechSynthesisUtterance(part.trim());
 		u.lang = 'el-GR';
 		u.rate = SETTINGS.rate;
-		if (voice) u.voice = voice;
+		if (voice) {
+			u.voice = voice;
+			u.lang = voice.lang;
+		}
 		synth.speak(u);
 	}
 }
@@ -894,9 +917,9 @@ function sw(id, checked) {
 
 function renderSettings() {
 	const deckCount = (d) => DATA.words.filter((w) => w.deck === d).length;
-	loadVoices();
+	VOICES = greekVoices();
 	const voices = VOICES.length
-		? `<select id="voice"><option value="">Системный</option>${VOICES.map((v) => `<option value="${esc(v.voiceURI)}" ${v.voiceURI === SETTINGS.voice ? 'selected' : ''}>${esc(v.name)}${/premium|enhanced|улучш/i.test(v.voiceURI + v.name) ? ' (улучш.)' : ''}</option>`).join('')}</select>`
+		? `<select id="voice"><option value="">Системный</option>${VOICES.map((v) => `<option value="${esc(v.voiceURI)}" ${v.voiceURI === SETTINGS.voice ? 'selected' : ''}>${esc(voiceLabel(v))}</option>`).join('')}</select>`
 		: '<span class="muted small">нет греческого голоса</span>';
 	return `
 		<div class="section-title">Настройки</div>
@@ -919,7 +942,7 @@ function renderSettings() {
 		<div class="list settings">
 			<div class="srow"><div class="grow">Читать слова автоматически</div>${sw('autoplay', SETTINGS.autoplay)}</div>
 			<div class="srow"><div class="grow">Скорость</div><input type="range" id="rate" min="0.6" max="1.1" step="0.05" value="${SETTINGS.rate}"></div>
-			<div class="srow"><div class="grow">Голос</div>${voices}<button class="icon-btn" data-speak="Καλημέρα! Είμαι εδώ." aria-label="Проверить голос">${SPEAKER_SVG}</button></div>
+			<div class="srow" id="voice-row"><div class="grow">Голос</div>${voices}<button class="icon-btn" data-speak="Καλημέρα! Είμαι εδώ." aria-label="Проверить голос">${SPEAKER_SVG}</button></div>
 			${VOICES.length ? '' : '<div class="srow"><div class="grow sub">На iPhone: Настройки → Универсальный доступ → Устный контент → Голоса → Греческий (Melina).</div></div>'}
 		</div>
 		<div class="section-title">Данные</div>
@@ -970,6 +993,7 @@ function bindSettings() {
 	const voice = document.getElementById('voice');
 	if (voice) voice.onchange = () => {
 		SETTINGS.voice = voice.value;
+		SETTINGS.voiceName = VOICES.find((v) => v.voiceURI === voice.value)?.name || '';
 		saveSettings();
 		speak('Καλημέρα!');
 	};
