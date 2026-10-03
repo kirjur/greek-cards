@@ -5,7 +5,7 @@ workers_dev = true
 
 [[kv_namespaces]]
 binding = "KV"
-id = "REPLACE_ME"
+id = "314579f6ae2b4e9795e21857821f0a93"
 
 [vars]
 ALLOWED_ORIGINS = "https://kirjur.github.io,http://localhost:8000"

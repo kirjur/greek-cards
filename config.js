@@ -1,2 +1,2 @@
 // Sync server URL (written by worker/deploy.sh). Empty = sync disabled.
-window.GK_API = '';
+window.GK_API = 'https://greek-cards-sync.kirjur.workers.dev';

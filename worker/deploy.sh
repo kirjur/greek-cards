@@ -47,7 +47,8 @@ if [ "$(uname)" = "Darwin" ]; then
 else
 	script -q -c "${W[*]} deploy" "$log"
 fi
-url=$(grep -aoE 'https://[a-z0-9.-]+\.workers\.dev' "$log" | head -1 || true)
+name=$(sed -n 's/^name = "\(.*\)"/\1/p' wrangler.toml)
+url=$(grep -aoE "https://${name}\.[a-z0-9-]+\.workers\.dev" "$log" | head -1 || true)
 rm -f "$log"
 
 if [ -z "$url" ]; then
