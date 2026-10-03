@@ -9,9 +9,20 @@ if ! command -v npx >/dev/null; then
 	exit 1
 fi
 
+# Ignore ~/.npmrc: a private registry or a stale npm token there breaks `npx` (E401)
+npm_config_userconfig="$(mktemp)"
+export npm_config_userconfig
+export npm_config_registry="https://registry.npmjs.org/"
+trap 'rm -f "$npm_config_userconfig"' EXIT
+
 W=(npx --yes wrangler@4)
 
-if "${W[@]}" whoami 2>&1 | grep -qi "not authenticated"; then
+if ! who=$("${W[@]}" whoami 2>&1); then
+	echo "$who" >&2
+	echo "Не удалось запустить wrangler" >&2
+	exit 1
+fi
+if printf '%s' "$who" | grep -qi "not authenticated"; then
 	echo "→ Вход в Cloudflare (откроется браузер)…"
 	"${W[@]}" login
 fi
