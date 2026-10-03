@@ -4,7 +4,7 @@
 
 const { fsrs, generatorParameters, createEmptyCard, Rating, State } = window.FSRS;
 
-const LS = { cards: 'gk.cards.v1', log: 'gk.log.v1', settings: 'gk.settings.v1', extra: 'gk.extra.v1' };
+const LS = { cards: 'gk.cards.v1', log: 'gk.log.v1', settings: 'gk.settings.v1', extra: 'gk.extra.v1', account: 'gk.account.v1' };
 const DAY_START_HOUR = 4; // new day starts at 04:00 local time
 const LEARN_AHEAD_MS = 20 * 60 * 1000;
 const ARTICLES = ['ο', 'η', 'το'];
@@ -76,6 +76,7 @@ function makeScheduler() {
 
 function saveSettings() {
 	store.set(LS.settings, SETTINGS);
+	DIRTY = true;
 	F = makeScheduler();
 }
 
@@ -318,9 +319,11 @@ const VERDICTS = {
 /* ---------- speech ---------- */
 
 let VOICES = [];
+// iOS also ships novelty/Eloquence voices; never pick them automatically
+const ODD_VOICES = /\b(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|albert|bad news|bahh|bells|boing|bubbles|cellos|good news|jester|organ|superstar|trinoids|whisper|wobble|zarvox)\b/i;
 function loadVoices() {
 	if (!('speechSynthesis' in window)) return;
-	VOICES = speechSynthesis.getVoices().filter((v) => (v.lang || '').toLowerCase().startsWith('el'));
+	VOICES = speechSynthesis.getVoices().filter((v) => (v.lang || '').toLowerCase().replace('_', '-').startsWith('el') && !ODD_VOICES.test(v.name));
 }
 if ('speechSynthesis' in window) {
 	loadVoices();
@@ -329,15 +332,20 @@ if ('speechSynthesis' in window) {
 
 function speak(text) {
 	if (!('speechSynthesis' in window) || !text) return;
-	speechSynthesis.cancel();
-	const parts = String(text).replace(/\s+/g, ' ').match(/[^.!;;…]+[.!;;…]*/g) || [text];
-	const voice = VOICES.find((v) => v.voiceURI === SETTINGS.voice) || VOICES.find((v) => v.lang === 'el-GR') || VOICES[0];
-	for (const p of parts) {
-		const u = new SpeechSynthesisUtterance(p.trim());
+	const synth = window.speechSynthesis;
+	if (synth.speaking || synth.pending) synth.cancel();
+	if (synth.paused) synth.resume(); // iOS sometimes leaves the queue paused after backgrounding
+	const clean = String(text).replace(/\s+/g, ' ').trim();
+	// long texts are split into sentences: iOS may cut off very long utterances
+	const parts = clean.length > 180 ? clean.match(/[^.!;;…]+[.!;;…]*/g) || [clean] : [clean];
+	// only force a voice the user picked explicitly; otherwise iOS uses its default Greek voice
+	const voice = SETTINGS.voice ? VOICES.find((v) => v.voiceURI === SETTINGS.voice) : null;
+	for (const part of parts) {
+		const u = new SpeechSynthesisUtterance(part.trim());
 		u.lang = 'el-GR';
 		u.rate = SETTINGS.rate;
 		if (voice) u.voice = voice;
-		speechSynthesis.speak(u);
+		synth.speak(u);
 	}
 }
 
@@ -440,6 +448,17 @@ function renderLearn() {
 		</div>
 		${renderLessonSummary()}
 	`;
+	if (API && !ACCOUNT && !store.get(LS.account + '.hint', false)) {
+		$view.insertAdjacentHTML('afterbegin', `<div class="card banner">
+			<div class="grow small">Создай личный код в «Прогрессе» — прогресс сохранится на сервере и появится в рейтинге группы.</div>
+			<button class="btn ghost" id="hint-go">Создать</button><button class="icon-btn close" id="hint-x" aria-label="Скрыть">×</button>
+		</div>`);
+		document.getElementById('hint-go').onclick = () => showTab('stats');
+		document.getElementById('hint-x').onclick = () => {
+			store.set(LS.account + '.hint', true);
+			renderLearn();
+		};
+	}
 	document.getElementById('start')?.addEventListener('click', startSession);
 	document.getElementById('more')?.addEventListener('click', () => {
 		const extra = store.get(LS.extra, {});
@@ -481,6 +500,7 @@ function endSession() {
 	speechSynthesis?.cancel?.();
 	CUR = null;
 	showTab('learn');
+	sync();
 }
 
 function nextCard() {
@@ -618,6 +638,7 @@ function bindSession() {
 		CUR.chosen = b.dataset.art;
 		const ok = b.dataset.art === w.art;
 		rateCard(CUR.card, ok ? Rating.Good : Rating.Again);
+		maybeSyncDuringSession();
 		CUR.phase = 'back';
 		renderCard();
 		if (SETTINGS.autoplay) speak(withArt(w));
@@ -641,6 +662,7 @@ function reveal() {
 
 function grade(r) {
 	rateCard(CUR.card, r);
+	maybeSyncDuringSession();
 	nextCard();
 }
 
@@ -841,6 +863,8 @@ function renderStats() {
 	const wd = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
 
 	$view.innerHTML = `
+		${renderGroup()}
+		<div class="section-title">Мой прогресс</div>
 		<div class="tiles">
 			<div class="tile"><div class="v">${tLog.length}</div><div class="k">ответов сегодня</div></div>
 			<div class="tile"><div class="v">${streakDays()}</div><div class="k">дней подряд</div></div>
@@ -861,6 +885,7 @@ function renderStats() {
 		${renderSettings()}
 	`;
 	bindSettings();
+	bindGroup();
 }
 
 function sw(id, checked) {
@@ -869,8 +894,9 @@ function sw(id, checked) {
 
 function renderSettings() {
 	const deckCount = (d) => DATA.words.filter((w) => w.deck === d).length;
+	loadVoices();
 	const voices = VOICES.length
-		? `<select id="voice">${VOICES.map((v) => `<option value="${esc(v.voiceURI)}" ${v.voiceURI === SETTINGS.voice ? 'selected' : ''}>${esc(v.name)}</option>`).join('')}</select>`
+		? `<select id="voice"><option value="">Системный</option>${VOICES.map((v) => `<option value="${esc(v.voiceURI)}" ${v.voiceURI === SETTINGS.voice ? 'selected' : ''}>${esc(v.name)}${/premium|enhanced|улучш/i.test(v.voiceURI + v.name) ? ' (улучш.)' : ''}</option>`).join('')}</select>`
 		: '<span class="muted small">нет греческого голоса</span>';
 	return `
 		<div class="section-title">Настройки</div>
@@ -903,7 +929,7 @@ function renderSettings() {
 			<div class="srow"><div class="grow">Слова: ${DATA.words.length}<div class="sub">версия данных ${esc(DATA.version ?? '—')}</div></div><button class="btn ghost" id="reload">Обновить</button></div>
 			<div class="srow"><div class="grow danger">Сбросить весь прогресс</div><button class="btn ghost danger" id="reset">Сбросить</button></div>
 		</div>
-		<p class="muted small" style="text-align:center;margin-top:18px">Прогресс хранится только на этом устройстве. Иногда делай экспорт.</p>
+		<p class="muted small" style="text-align:center;margin-top:18px">${ACCOUNT ? 'Прогресс синхронизируется с сервером по твоему коду.' : 'Прогресс хранится только на этом устройстве. Создай код или иногда делай экспорт.'}</p>
 	`;
 }
 
@@ -962,6 +988,7 @@ function bindSettings() {
 		LOG = [];
 		UNDO = null;
 		saveProgress();
+		push().catch(() => {});
 		toast('Прогресс сброшен');
 		renderStats();
 	};
@@ -1004,10 +1031,353 @@ async function importProgress(file) {
 		}
 		UNDO = null;
 		saveProgress();
+		push().catch(() => {});
 		toast('Прогресс загружен');
 		renderStats();
 	} catch {
 		toast('Не получилось прочитать файл');
+	}
+}
+
+/* ---------- sync & group ---------- */
+
+const API = String(window.GK_API || '').replace(/\/+$/, '');
+let ACCOUNT = store.get(LS.account, null); // { code, name, lastSync, pushedDay, reveal }
+let DIRTY = false;
+let SYNCING = null;
+let RATED_SINCE_SYNC = 0;
+
+const fmtCode = (c) => (c ? `${c.slice(0, 4)}-${c.slice(4)}` : '');
+const normCode = (s) => String(s || '').toUpperCase().replace(/[^0-9A-Z]/g, '');
+
+function saveAccount() {
+	if (ACCOUNT) store.set(LS.account, ACCOUNT);
+	else localStorage.removeItem(LS.account);
+}
+
+async function api(method, path, body, code = ACCOUNT?.code) {
+	const r = await fetch(API + path, {
+		method,
+		headers: { 'Content-Type': 'application/json', ...(code ? { Authorization: `Bearer ${code}` } : {}) },
+		body: body === undefined ? undefined : JSON.stringify(body),
+		cache: 'no-store',
+	});
+	const data = await r.json().catch(() => ({}));
+	if (!r.ok) throw Object.assign(new Error(data.error || `HTTP ${r.status}`), { status: r.status, code: data.error });
+	return data;
+}
+
+const logKey = (l) => `${l.c}|${l.t}`;
+const reviewedAt = (c) => (c && c.last_review ? Date.parse(c.last_review) || 0 : 0);
+
+/** Union of local and remote progress; returns { changed, localExtra }. */
+function mergeRemote(remote) {
+	const res = { changed: false, localExtra: false };
+	if (!remote || typeof remote !== 'object') {
+		res.localExtra = Object.keys(CARDS).length > 0 || LOG.length > 0;
+		return res;
+	}
+	const rCards = remote.cards && typeof remote.cards === 'object' ? remote.cards : {};
+	const rLog = Array.isArray(remote.log) ? remote.log : [];
+	const freshDevice = !Object.keys(CARDS).length && !LOG.length;
+
+	for (const [id, lc] of Object.entries(CARDS)) {
+		if (!rCards[id] || reviewedAt(lc) > reviewedAt(rCards[id])) res.localExtra = true;
+	}
+	for (const [id, rc] of Object.entries(rCards)) {
+		if (!CARDS[id] || reviewedAt(rc) > reviewedAt(CARDS[id])) {
+			CARDS[id] = rc;
+			res.changed = true;
+		}
+	}
+	const rKeys = new Set(rLog.map(logKey));
+	if (LOG.some((l) => !rKeys.has(logKey(l)))) res.localExtra = true;
+	const lKeys = new Set(LOG.map(logKey));
+	const add = rLog.filter((l) => l && l.c && !lKeys.has(logKey(l)));
+	if (add.length) {
+		LOG = LOG.concat(add).sort((a, b) => a.t - b.t);
+		res.changed = true;
+	}
+	if (freshDevice && remote.settings) {
+		const s = remote.settings;
+		SETTINGS = { ...DEFAULT_SETTINGS, ...s, decks: { ...DEFAULT_SETTINGS.decks, ...(s.decks || {}) }, types: { ...DEFAULT_SETTINGS.types, ...(s.types || {}) } };
+		store.set(LS.settings, SETTINGS);
+		F = makeScheduler();
+		res.changed = true;
+	}
+	if (res.changed) {
+		UNDO = null;
+		saveProgress();
+	}
+	return res;
+}
+
+function myStats() {
+	let learned = 0, mature = 0;
+	const words = new Set();
+	for (const [id, c] of Object.entries(CARDS)) {
+		if (c.state === State.New) continue;
+		words.add(id.split('|')[0]); // words already studied
+		if (c.state !== State.Review) continue;
+		learned++;
+		if (c.stability >= 21) mature++;
+	}
+	const t0 = dayStart();
+	const w0 = t0 - 6 * 86400000;
+	let today = 0, week = 0;
+	for (const l of LOG) {
+		if (l.t >= t0) today++;
+		if (l.t >= w0) week++;
+	}
+	return { words: words.size, learned, mature, today, week, total: LOG.length, streak: streakDays(), day: dayKey(Date.now()) };
+}
+
+async function push() {
+	if (!API || !ACCOUNT) return;
+	await api('PUT', '/api/me', { data: { cards: CARDS, log: LOG, settings: SETTINGS }, stats: myStats(), name: ACCOUNT.name });
+	DIRTY = false;
+	ACCOUNT.lastSync = Date.now();
+	ACCOUNT.pushedDay = dayKey(Date.now());
+	saveAccount();
+}
+
+/** Pull, merge, push if needed. Resolves to true when local data changed. */
+function sync({ quiet = true } = {}) {
+	if (!API || !ACCOUNT) return Promise.resolve(false);
+	if (SYNCING) return SYNCING;
+	SYNCING = (async () => {
+		try {
+			const me = await api('GET', '/api/me');
+			const { changed, localExtra } = mergeRemote(me.data);
+			if (localExtra || DIRTY || ACCOUNT.pushedDay !== dayKey(Date.now()) || !me.data) await push();
+			else {
+				ACCOUNT.lastSync = Date.now();
+				saveAccount();
+			}
+			RATED_SINCE_SYNC = 0;
+			return changed;
+		} catch (e) {
+			if (e.status === 401) {
+				ACCOUNT = null;
+				saveAccount();
+				toast('Код больше не действует — войди заново');
+			} else if (!quiet) toast('Нет связи с сервером');
+			return false;
+		} finally {
+			SYNCING = null;
+		}
+	})();
+	return SYNCING;
+}
+
+function maybeSyncDuringSession() {
+	if (!ACCOUNT) return;
+	if (++RATED_SINCE_SYNC >= 20) sync();
+}
+
+function rerender() {
+	if (!$session.hidden || SUBVIEW) return;
+	showTab(TAB);
+}
+
+function ago(ts) {
+	if (!ts) return 'никогда';
+	const ms = Date.now() - ts;
+	return ms < 60000 ? 'только что' : `${fmtInterval(ms)} назад`;
+}
+
+function renderGroup() {
+	if (!API) return '';
+	if (!ACCOUNT) {
+		return `
+		<div class="section-title">Группа</div>
+		<div class="card">
+			<p class="small" style="margin:0 0 12px">Личный код сохраняет прогресс на сервере: его можно открыть на другом устройстве, и ты попадёшь в рейтинг группы.</p>
+			<input class="search" id="acc-name" placeholder="Как тебя зовут?" maxlength="24" autocomplete="nickname">
+			<button class="btn primary block" id="acc-create">Создать код</button>
+			<div class="row" style="margin-top:14px">
+				<input class="search grow" id="acc-code" placeholder="Есть код? XXXX-XXXX" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" style="margin:0">
+				<button class="btn" id="acc-login">Войти</button>
+			</div>
+		</div>`;
+	}
+	return `
+		<div class="section-title">Группа</div>
+		<div class="list" id="board"><div class="empty small" style="padding:18px 0">Загружаю рейтинг…</div></div>
+		<div class="card small">
+			<div class="row">
+				<div class="grow">Ты — <b>${esc(ACCOUNT.name)}</b><div class="muted" id="acc-status">Синхронизировано: ${ago(ACCOUNT.lastSync)}</div></div>
+				<button class="btn sm" id="acc-sync">Обновить</button>
+			</div>
+			<div class="acc-code">
+				<div class="code" id="acc-code-view">${ACCOUNT.reveal ? fmtCode(ACCOUNT.code) : '••••-••••'}</div>
+				<div class="row" style="gap:6px">
+					<button class="btn sm" id="acc-show">${ACCOUNT.reveal ? 'Скрыть' : 'Показать'}</button>
+					<button class="btn sm" id="acc-copy">Копировать</button>
+				</div>
+			</div>
+			<p class="muted" style="margin:6px 0">Твой личный код: введи его на другом устройстве, чтобы продолжить с тем же прогрессом. Не показывай другим — по нему можно войти в твой профиль.</p>
+			<div class="row" style="justify-content:space-between;margin-top:6px">
+				<button class="link" id="acc-logout">Выйти на этом устройстве</button>
+				<button class="link danger" id="acc-delete">Удалить профиль</button>
+			</div>
+		</div>`;
+}
+
+function boardRow(u, i) {
+	const s = u.stats || {};
+	const today = s.day === dayKey(Date.now()) ? s.today || 0 : 0;
+	const stale = Date.now() - (u.updated || 0) > 2 * 86400000;
+	const bits = [`серия ${s.streak || 0} дн`, `за неделю ${s.week || 0}`];
+	if (today) bits.unshift(`сегодня ${today}`);
+	else if (stale) bits.unshift(`был(а) ${ago(u.updated)}`);
+	return `<div class="item board-row ${u.me ? 'me' : ''}">
+		<div class="row">
+			<div class="rank">${i + 1}</div>
+			<div class="grow">
+				<div class="w-el">${esc(u.name)}${u.me ? ' <span class="pill new">ты</span>' : ''}</div>
+				<div class="w-ru small">${bits.join(' · ')}</div>
+			</div>
+			<div class="score"><b>${s.words || 0}</b><span>слов</span></div>
+		</div>
+	</div>`;
+}
+
+async function loadBoard() {
+	const el = document.getElementById('board');
+	if (!el) return;
+	try {
+		const { users } = await api('GET', '/api/board');
+		users.sort((a, b) => (b.stats?.words || 0) - (a.stats?.words || 0) || (b.stats?.week || 0) - (a.stats?.week || 0));
+		if (document.getElementById('board') !== el) return;
+		el.innerHTML = users.length ? users.map(boardRow).join('') : '<div class="empty small">Пока никого</div>';
+	} catch (e) {
+		if (e.status === 401) {
+			ACCOUNT = null;
+			saveAccount();
+			renderStats();
+			return;
+		}
+		el.innerHTML = '<div class="empty small" style="padding:18px 0">Нет связи с сервером</div>';
+	}
+}
+
+function bindGroup() {
+	if (!API) return;
+	if (!ACCOUNT) {
+		document.getElementById('acc-create').onclick = createAccount;
+		document.getElementById('acc-login').onclick = loginWithCode;
+		document.getElementById('acc-code').addEventListener('keydown', (e) => e.key === 'Enter' && loginWithCode());
+		document.getElementById('acc-name').addEventListener('keydown', (e) => e.key === 'Enter' && createAccount());
+		return;
+	}
+	document.getElementById('acc-sync').onclick = async () => {
+		const st = document.getElementById('acc-status');
+		st.textContent = 'Синхронизирую…';
+		const changed = await sync({ quiet: false });
+		if (changed || !ACCOUNT) renderStats();
+		else {
+			st.textContent = `Синхронизировано: ${ago(ACCOUNT.lastSync)}`;
+			loadBoard();
+		}
+	};
+	document.getElementById('acc-show').onclick = () => {
+		ACCOUNT.reveal = !ACCOUNT.reveal;
+		saveAccount();
+		renderStats();
+	};
+	document.getElementById('acc-copy').onclick = async () => {
+		try {
+			await navigator.clipboard.writeText(fmtCode(ACCOUNT.code));
+			toast('Код скопирован');
+		} catch {
+			ACCOUNT.reveal = true;
+			saveAccount();
+			renderStats();
+		}
+	};
+	document.getElementById('acc-logout').onclick = logout;
+	document.getElementById('acc-delete').onclick = deleteAccount;
+	loadBoard();
+}
+
+async function createAccount() {
+	const name = document.getElementById('acc-name').value.trim();
+	if (!name) {
+		toast('Напиши имя — его увидят в рейтинге');
+		document.getElementById('acc-name').focus();
+		return;
+	}
+	const btn = document.getElementById('acc-create');
+	btn.disabled = true;
+	try {
+		const r = await api('POST', '/api/register', { name }, null);
+		ACCOUNT = { code: normCode(r.code), name: r.name, lastSync: 0, reveal: true };
+		saveAccount();
+		await push();
+		toast('Код создан — сохрани его');
+		renderStats();
+	} catch (e) {
+		toast(e.code === 'too_many_users' ? 'В группе уже максимум участников' : 'Не получилось — нет связи?');
+		btn.disabled = false;
+	}
+}
+
+async function loginWithCode() {
+	const code = normCode(document.getElementById('acc-code').value);
+	if (code.length !== 8) {
+		toast('Код — 8 символов, например K7QM-4XPA');
+		return;
+	}
+	const btn = document.getElementById('acc-login');
+	btn.disabled = true;
+	try {
+		const me = await api('GET', '/api/me', undefined, code);
+		const localCards = Object.keys(CARDS).length;
+		if (localCards && me.data && !confirm(`На этом устройстве уже есть прогресс (${localCards} карточек). Объединить его с профилем «${me.name}»?\n\nОтмена — заменить его прогрессом профиля.`)) {
+			CARDS = {};
+			LOG = [];
+		}
+		ACCOUNT = { code, name: me.name, lastSync: 0, reveal: false };
+		saveAccount();
+		mergeRemote(me.data);
+		await push();
+		toast(`Привет, ${me.name}!`);
+		renderStats();
+	} catch (e) {
+		toast(e.status === 401 ? 'Такого кода нет' : 'Нет связи с сервером');
+		btn.disabled = false;
+	}
+}
+
+async function logout() {
+	if (!confirm('Выйти? Прогресс на этом устройстве удалится, но останется на сервере — вернуть его можно по коду.')) return;
+	try {
+		await push();
+	} catch {
+		toast('Нет связи — сначала нужно сохранить прогресс на сервер');
+		return;
+	}
+	ACCOUNT = null;
+	saveAccount();
+	CARDS = {};
+	LOG = [];
+	UNDO = null;
+	saveProgress();
+	toast('Вышел');
+	renderStats();
+}
+
+async function deleteAccount() {
+	if (!confirm('Удалить профиль с сервера? Код перестанет работать, ты пропадёшь из рейтинга. Прогресс на этом устройстве останется.')) return;
+	try {
+		await api('DELETE', '/api/me');
+		ACCOUNT = null;
+		saveAccount();
+		toast('Профиль удалён');
+		renderStats();
+	} catch {
+		toast('Нет связи с сервером');
 	}
 }
 
@@ -1034,6 +1404,7 @@ async function boot() {
 		return;
 	}
 	showTab('learn');
+	sync().then((changed) => changed && rerender());
 	navigator.storage?.persist?.().catch(() => {});
 	if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
 		navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -1041,7 +1412,9 @@ async function boot() {
 }
 
 document.addEventListener('visibilitychange', () => {
-	if (document.visibilityState === 'visible' && $session.hidden && TAB === 'learn' && !SUBVIEW) renderLearn();
+	if (document.visibilityState !== 'visible') return;
+	if ($session.hidden && TAB === 'learn' && !SUBVIEW) renderLearn();
+	if (ACCOUNT && Date.now() - (ACCOUNT.lastSync || 0) > 2 * 60000) sync().then((changed) => changed && rerender());
 });
 
 boot();

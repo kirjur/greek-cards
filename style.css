@@ -249,6 +249,20 @@ main {
 .el-block { position: relative; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; padding: 12px 52px 12px 14px; margin: 12px 0; font-size: 18px; line-height: 1.6; white-space: pre-wrap; }
 .el-block .icon-btn { position: absolute; top: 8px; right: 8px; }
 
+/* ---------- group ---------- */
+.banner { display: flex; align-items: center; gap: 8px; padding: 10px 10px 10px 14px; background: var(--accent-2); border-color: transparent; }
+.banner .close { width: 32px; height: 32px; font-size: 20px; line-height: 1; background: none; color: var(--muted); }
+.board-row.me { background: var(--accent-2); }
+.board-row .rank { width: 26px; flex: none; text-align: center; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.board-row .score { flex: none; text-align: right; line-height: 1.1; }
+.board-row .score b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+.board-row .score span { font-size: 12px; color: var(--muted); }
+.code { font-family: ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .04em; font-size: 18px; font-weight: 700; white-space: nowrap; }
+.acc-code { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; background: var(--surface-2); border-radius: 12px; padding: 10px 12px; margin: 12px 0 8px; }
+.btn.sm { font-size: 15px; padding: 8px 12px; border-radius: 10px; white-space: nowrap; background: var(--surface); }
+.card .btn.sm { background: var(--accent-2); color: var(--accent); }
+.link { border: 0; background: none; color: var(--accent); padding: 6px 0; font-size: 14px; white-space: nowrap; }
+
 /* ---------- stats & settings ---------- */
 .tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; }
 .tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }

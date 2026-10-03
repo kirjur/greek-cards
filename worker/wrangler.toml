@@ -1,0 +1,12 @@
+name = "greek-cards-sync"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_ME"
+
+[vars]
+ALLOWED_ORIGINS = "https://kirjur.github.io,http://localhost:8000"
+MAX_USERS = "30"

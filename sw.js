@@ -1,10 +1,11 @@
-// Offline cache: app shell is stale-while-revalidate, data/*.json is network-first.
-const VERSION = 'gk-v1';
+// Offline cache: app shell is stale-while-revalidate, data/*.json and config.js are network-first.
+const VERSION = 'gk-v2';
 const SHELL = [
 	'./',
 	'./index.html',
 	'./style.css',
 	'./app.js',
+	'./config.js',
 	'./vendor/fsrs.umd.js',
 	'./vendor/marked.umd.js',
 	'./manifest.webmanifest',
@@ -32,7 +33,7 @@ self.addEventListener('fetch', (e) => {
 	const url = new URL(req.url);
 	if (req.method !== 'GET' || url.origin !== location.origin) return;
 
-	if (url.pathname.includes('/data/')) {
+	if (url.pathname.includes('/data/') || url.pathname.endsWith('/config.js')) {
 		e.respondWith(
 			fetch(req)
 				.then((res) => {
