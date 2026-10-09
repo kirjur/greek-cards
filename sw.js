@@ -1,5 +1,5 @@
 // Offline cache: app shell is stale-while-revalidate, data/*.json and config.js are network-first.
-const VERSION = 'gk-v6';
+const VERSION = 'gk-v7';
 const SHELL = [
 	'./',
 	'./index.html',
@@ -14,6 +14,7 @@ const SHELL = [
 	'./icons/apple-touch-icon.png',
 	'./data/words.json',
 	'./data/notes.json',
+	'./data/homework.json',
 ];
 
 self.addEventListener('install', (e) => {

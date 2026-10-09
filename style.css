@@ -85,7 +85,7 @@ main {
 
 .tabbar {
 	position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
-	display: grid; grid-template-columns: repeat(4, 1fr);
+	display: grid; grid-template-columns: repeat(5, 1fr);
 	padding-bottom: var(--safe-b);
 	background: color-mix(in srgb, var(--surface) 90%, transparent);
 	backdrop-filter: saturate(1.6) blur(14px);
@@ -99,6 +99,11 @@ main {
 }
 .tabbar svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .tabbar button.active { color: var(--accent); }
+.tabbar button { position: relative; }
+.tab-badge {
+	position: absolute; top: 5px; left: calc(50% + 7px); min-width: 17px; height: 17px; padding: 0 5px; border-radius: 99px;
+	background: #e5484d; color: #fff; font-size: 11px; font-weight: 700; line-height: 17px; text-align: center;
+}
 
 /* ---------- generic ---------- */
 .card {
@@ -320,3 +325,24 @@ main {
 @media (min-width: 700px) {
 	.face .big { font-size: 48px; }
 }
+
+/* ---------- dictionary filters ---------- */
+.chips.sub { padding-top: 0; }
+.chips.sub .chip { font-size: 13px; padding: 5px 11px; }
+.chip .cnt { opacity: .6; font-variant-numeric: tabular-nums; margin-left: 2px; }
+
+/* ---------- homework ---------- */
+.hw-card { padding: 16px 16px 8px; }
+.hw-head { display: flex; align-items: baseline; gap: 10px; }
+.hw-due { flex: 1; font-size: 14px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .03em; }
+.hw-due span { font-weight: 500; color: var(--muted); text-transform: none; letter-spacing: 0; }
+.hw-due.soon span { color: #d4572b; font-weight: 600; }
+.hw-count { font-size: 14px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hw-count.all { color: #2f9e61; }
+.hw-title { font-size: 19px; font-weight: 700; margin: 6px 0 2px; line-height: 1.3; }
+.hw-meta { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.hw-card .md > ul:first-child { margin-top: 12px; }
+.md li.task { list-style: none; margin: 0 0 0 -22px; padding: 9px 0 9px 36px; position: relative; border-top: 1px solid var(--line); cursor: pointer; }
+.md li.task:first-child { border-top: 0; }
+.md li.task input { position: absolute; left: 2px; top: 10px; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.md li.task.done { color: var(--muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--muted) 60%, transparent); }

@@ -10,6 +10,7 @@ sw.js, manifest.webmanifest     — офлайн и установка на эк
 vendor/                         — ts-fsrs 5.4.2, marked 18
 data/words.json                 — слова (собирается из _src/build_words.py)
 data/notes.json                 — конспекты (собирается из _src/notes/*.md)
+data/homework.json              — домашка (собирается из _src/homework/*.md тем же build_notes.py)
 config.js                       — адрес сервера синхронизации (пишет worker/deploy.sh)
 worker/                         — Cloudflare Worker: личные коды, синхронизация, рейтинг группы
 _src/                           — исходники данных (Jekyll на GitHub Pages их не публикует)

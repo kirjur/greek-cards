@@ -4,7 +4,7 @@
 
 const { fsrs, generatorParameters, createEmptyCard, Rating, State } = window.FSRS;
 
-const LS = { cards: 'gk.cards.v1', log: 'gk.log.v1', settings: 'gk.settings.v1', extra: 'gk.extra.v1', account: 'gk.account.v1' };
+const LS = { cards: 'gk.cards.v1', log: 'gk.log.v1', settings: 'gk.settings.v1', extra: 'gk.extra.v1', account: 'gk.account.v1', hw: 'gk.hw.v1' };
 const DAY_START_HOUR = 4; // new day starts at 04:00 local time
 const LEARN_AHEAD_MS = 20 * 60 * 1000;
 const ARTICLES = ['ο', 'η', 'το'];
@@ -67,6 +67,8 @@ let CARDS = store.get(LS.cards, {});
 let LOG = store.get(LS.log, []);
 let DATA = { lessons: {}, decks: {}, words: [] };
 let NOTES = [];
+let HW = [];
+let HW_DONE = store.get(LS.hw, {}); // { hwId: { taskKey: { d: 0|1, t: ms } } }
 let WORDS = new Map();
 let F = makeScheduler();
 
@@ -456,11 +458,15 @@ function wordStatus(w) {
 
 /* ---------- tabs ---------- */
 
-function showTab(tab) {
+function setActiveTab(tab) {
 	TAB = tab;
-	SUBVIEW = null;
 	document.querySelectorAll('.tabbar button').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
-	({ learn: renderLearn, dict: renderDict, notes: renderNotes, stats: renderStats })[tab]();
+}
+
+function showTab(tab) {
+	setActiveTab(tab);
+	SUBVIEW = null;
+	({ learn: renderLearn, dict: renderDict, notes: renderNotes, hw: renderHomework, stats: renderStats })[tab]();
 	window.scrollTo(0, 0);
 }
 
@@ -749,7 +755,12 @@ document.addEventListener('keydown', (e) => {
 
 /* ---------- dictionary ---------- */
 
-const DICT = { q: '', deck: 'all' };
+const DICT = { q: '', deck: 'all', pos: '', art: '' };
+const POS_LABEL = {
+	noun: 'Существительные', verb: 'Глаголы', adj: 'Прилагательные', adv: 'Наречия', pron: 'Местоимения', num: 'Числа',
+	conj: 'Союзы', prep: 'Предлоги', part: 'Частицы', phrase: 'Фразы', letter: 'Буквы', combo: 'Сочетания',
+};
+const ART_LABEL = { ο: 'ο · м. р.', η: 'η · ж. р.', το: 'το · ср. р.' };
 
 function renderDict() {
 	setTitle('Словарь');
@@ -758,6 +769,8 @@ function renderDict() {
 	$view.innerHTML = `
 		<input class="search" id="dq" type="search" placeholder="Поиск по-гречески или по-русски" value="${esc(DICT.q)}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
 		<div class="chips">${chips}</div>
+		<div class="chips sub" id="dpos"></div>
+		<div class="chips sub" id="dart"></div>
 		<div id="dlist"></div>`;
 	const dq = document.getElementById('dq');
 	dq.addEventListener('input', () => {
@@ -771,13 +784,43 @@ function renderDict() {
 	renderDictList();
 }
 
+/** Toggle chips: tap selects, tap on the selected one clears the filter. */
+function filterChips(box, counts, labels, current, onPick) {
+	const keys = Object.keys(labels).filter((k) => counts[k] || k === current);
+	if (keys.length < 2 && !current) {
+		box.hidden = true;
+		return;
+	}
+	box.hidden = false;
+	box.innerHTML = keys.map((k) => `<button class="chip ${k === current ? 'on' : ''}" data-f="${esc(k)}">${esc(labels[k])} <span class="cnt">${counts[k] || 0}</span>${k === current ? ' ✕' : ''}</button>`).join('');
+	box.querySelectorAll('[data-f]').forEach((b) => (b.onclick = () => onPick(b.dataset.f === current ? '' : b.dataset.f)));
+}
+
 function renderDictList() {
 	const qn = bare(norm(DICT.q));
-	const words = DATA.words.filter((w) => {
+	const base = DATA.words.filter((w) => {
 		if (DICT.deck !== 'all' && w.deck !== DICT.deck) return false;
 		if (!qn) return true;
 		return [w.el, w.ru, w.tr || '', ...(w.alts || [])].some((s) => bare(norm(s)).includes(qn));
 	});
+	const posCounts = {};
+	for (const w of base) posCounts[w.pos] = (posCounts[w.pos] || 0) + 1;
+	filterChips(document.getElementById('dpos'), posCounts, POS_LABEL, DICT.pos, (v) => {
+		DICT.pos = v;
+		DICT.art = '';
+		renderDictList();
+	});
+	let words = DICT.pos ? base.filter((w) => w.pos === DICT.pos) : base;
+	const artCounts = {};
+	for (const w of words) if (ART_LABEL[w.art]) artCounts[w.art] = (artCounts[w.art] || 0) + 1;
+	const dart = document.getElementById('dart');
+	if (DICT.pos === 'noun') {
+		filterChips(dart, artCounts, ART_LABEL, DICT.art, (v) => {
+			DICT.art = v;
+			renderDictList();
+		});
+		if (DICT.art) words = words.filter((w) => w.art === DICT.art);
+	} else dart.hidden = true;
 	const el = document.getElementById('dlist');
 	if (!words.length) {
 		el.innerHTML = '<div class="empty">Ничего не нашлось</div>';
@@ -818,6 +861,188 @@ function renderDictList() {
 	}));
 }
 
+/* ---------- homework ---------- */
+
+const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
+const TASK_RE = /^\s*[-*+] \[[ xX]\] (.+)$/gm;
+const LESSON_END_MIN = 10 * 60 + 15; // lessons are 08:45–10:15: after that, homework due today counts as handed in
+
+/** Stable key of a task: a short hash of its text, so reordering tasks keeps the ticks. */
+function taskKey(text) {
+	let h = 5381;
+	for (const ch of text.trim()) h = ((h << 5) + h + ch.codePointAt(0)) >>> 0;
+	return h.toString(36);
+}
+
+function hwTasks(md) {
+	return [...md.matchAll(TASK_RE)].map((m) => taskKey(m[1]));
+}
+
+function isoDays(iso) {
+	const [y, m, d] = iso.split('-').map(Number);
+	return Date.UTC(y, m - 1, d) / 86400000;
+}
+
+function daysLeft(h) {
+	const d = new Date();
+	return isoDays(h.due) - Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000;
+}
+
+function isUpcoming(h) {
+	const n = daysLeft(h);
+	if (n !== 0) return n > 0;
+	const d = new Date();
+	return d.getHours() * 60 + d.getMinutes() < LESSON_END_MIN;
+}
+
+function fmtDay(iso) {
+	const [y, m, d] = iso.split('-').map(Number);
+	return `${WEEKDAYS[new Date(y, m - 1, d).getDay()]} ${String(d).padStart(2, '0')}.${String(m).padStart(2, '0')}`;
+}
+
+function plural(n, one, few, many) {
+	const a = n % 10, b = n % 100;
+	return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 12 || b > 14) ? few : many;
+}
+
+function dueHint(h) {
+	const n = daysLeft(h);
+	if (!isUpcoming(h)) return '';
+	if (n === 0) return 'сегодня';
+	if (n === 1) return 'завтра';
+	return `через ${n} ${plural(n, 'день', 'дня', 'дней')}`;
+}
+
+function hwDone(h) {
+	const st = HW_DONE[h.id] || {};
+	return h.tasks.filter((k) => st[k]?.d).length;
+}
+
+/** Homework that is still ahead (due today or later), nearest first. */
+function upcomingHw() {
+	return HW.filter(isUpcoming).sort((a, b) => a.due.localeCompare(b.due));
+}
+
+function updateHwBadge() {
+	const left = upcomingHw().reduce((n, h) => n + h.tasks.length - hwDone(h), 0);
+	const btn = document.querySelector('.tabbar button[data-tab="hw"]');
+	if (!btn) return;
+	let b = btn.querySelector('.tab-badge');
+	if (!left) return b?.remove();
+	if (!b) {
+		b = document.createElement('span');
+		b.className = 'tab-badge';
+		btn.append(b);
+	}
+	b.textContent = left;
+}
+
+function setTask(h, key, done) {
+	(HW_DONE[h.id] ||= {})[key] = { d: done ? 1 : 0, t: Date.now() };
+	store.set(LS.hw, HW_DONE);
+	DIRTY = true;
+	updateHwBadge();
+	if (ACCOUNT) {
+		clearTimeout(setTask.timer);
+		setTask.timer = setTimeout(() => sync(), 4000);
+	}
+}
+
+/** Last-write-wins per task; returns { changed, localExtra } like mergeRemote. */
+function mergeHw(remote) {
+	const res = { changed: false, localExtra: false };
+	const r = remote && typeof remote === 'object' ? remote : {};
+	for (const [hid, tasks] of Object.entries(HW_DONE)) {
+		for (const [k, v] of Object.entries(tasks)) {
+			if (!r[hid]?.[k] || v.t > r[hid][k].t) res.localExtra = true;
+		}
+	}
+	for (const [hid, tasks] of Object.entries(r)) {
+		if (!tasks || typeof tasks !== 'object') continue;
+		for (const [k, v] of Object.entries(tasks)) {
+			const lv = HW_DONE[hid]?.[k];
+			if (v && typeof v.t === 'number' && (!lv || v.t > lv.t)) {
+				(HW_DONE[hid] ||= {})[k] = { d: v.d ? 1 : 0, t: v.t };
+				res.changed = true;
+			}
+		}
+	}
+	if (res.changed) store.set(LS.hw, HW_DONE);
+	return res;
+}
+
+function hwHeadHtml(h) {
+	const up = isUpcoming(h);
+	const done = hwDone(h), total = h.tasks.length;
+	const hint = dueHint(h);
+	return `<div class="hw-head">
+		<div class="hw-due ${up && daysLeft(h) <= 1 ? 'soon' : ''}">${up ? 'к' : 'было к'} ${esc(fmtDay(h.due))}${hint ? ` <span>· ${esc(hint)}</span>` : ''}</div>
+		<div class="hw-count ${total && done === total ? 'all' : ''}">${done}/${total}</div>
+	</div>
+	<div class="hw-title">${esc(h.title)}</div>
+	<div class="hw-meta">Задано на уроке ${esc(h.lesson)} · ${esc(fmtDay(h.given))}</div>
+	<div class="progressbar"><i style="width:${total ? Math.round((done / total) * 100) : 0}%"></i></div>`;
+}
+
+/** Renders one homework into `box`: header, markdown with live checkboxes, speakable Greek. */
+function renderHwBody(box, h, here) {
+	box.innerHTML = `<div class="hw-top">${hwHeadHtml(h)}</div><div class="md">${window.marked.parse(h.md, { gfm: true, breaks: false })}</div>`;
+	renderSpeakable(box);
+	bindLinks(box, here);
+	const boxes = [...box.querySelectorAll('.md li input[type="checkbox"]')];
+	const st = HW_DONE[h.id] || {};
+	boxes.forEach((cb, i) => {
+		const key = h.tasks[i];
+		if (!key) return;
+		const li = cb.closest('li');
+		li.classList.add('task');
+		cb.disabled = false;
+		cb.checked = Boolean(st[key]?.d);
+		li.classList.toggle('done', cb.checked);
+		const apply = () => {
+			li.classList.toggle('done', cb.checked);
+			setTask(h, key, cb.checked);
+			box.querySelector('.hw-top').innerHTML = hwHeadHtml(h);
+		};
+		cb.addEventListener('change', apply);
+		li.addEventListener('click', (e) => {
+			if (e.target === cb || e.target.closest('a')) return;
+			cb.checked = !cb.checked;
+			apply();
+		});
+	});
+}
+
+function renderHomework() {
+	setTitle('Домашка');
+	const up = upcomingHw();
+	const past = HW.filter((h) => !isUpcoming(h)).sort((a, b) => b.due.localeCompare(a.due));
+	$view.innerHTML = `
+		${up.length ? up.map((h) => `<div class="card hw-card" data-hw="${esc(h.id)}"></div>`).join('') : '<div class="empty">Новой домашки пока нет — она появится здесь после урока.</div>'}
+		${past.length ? `<div class="section-title">Прошлые</div><div class="list">${past.map((h) => {
+			const done = hwDone(h), total = h.tasks.length;
+			return `<a class="note-link" href="#" data-hwlink="${esc(h.id)}">
+				<div class="badge">У${esc(h.lesson)}</div>
+				<div class="grow"><div class="t">${esc(h.title)}</div><div class="d">к ${esc(fmtDay(h.due))} · ${done}/${total}${total && done === total ? ' ✓' : ''}</div></div>
+			</a>`;
+		}).join('')}</div>` : ''}`;
+	$view.querySelectorAll('.hw-card').forEach((box) => renderHwBody(box, HW.find((h) => h.id === box.dataset.hw), () => showTab('hw')));
+	$view.querySelectorAll('[data-hwlink]').forEach((a) => (a.onclick = (e) => {
+		e.preventDefault();
+		openHomework(a.dataset.hwlink);
+	}));
+}
+
+function openHomework(id, back = () => showTab('hw')) {
+	const h = HW.find((x) => x.id === id);
+	if (!h) return;
+	SUBVIEW = `hw:${id}`;
+	setTitle(`Домашка к ${fmtDay(h.due)}`, back);
+	$view.innerHTML = '<div class="card hw-card"></div>';
+	renderHwBody($view.querySelector('.hw-card'), h, () => openHomework(id, back));
+	window.scrollTo(0, 0);
+}
+
 /* ---------- notes ---------- */
 
 function renderNotes() {
@@ -846,19 +1071,38 @@ function noteBadge(n) {
 	return `У${n.lesson}`;
 }
 
-function openNote(id) {
+function openNote(id, back = () => showTab('notes')) {
 	const n = NOTES.find((x) => x.id === id);
 	if (!n) return;
 	SUBVIEW = id;
-	setTitle(n.title, () => showTab('notes'));
+	setTitle(n.title, back);
 	const html = window.marked.parse(n.md, { gfm: true, breaks: false });
 	$view.innerHTML = `<p class="muted small" style="margin:4px 0 0">${esc(n.date)}</p><div class="md">${html}</div>`;
 	renderSpeakable($view);
-	$view.querySelectorAll('.md a[href^="http"]').forEach((a) => {
+	bindLinks($view, () => openNote(id, back));
+	window.scrollTo(0, 0);
+}
+
+/** External links open in a new tab; #note/<id> and #hw/<id> navigate inside the app, `here` reopens the current view. */
+function bindLinks(root, here) {
+	root.querySelectorAll('.md a[href^="http"]').forEach((a) => {
 		a.target = '_blank';
 		a.rel = 'noopener';
 	});
-	window.scrollTo(0, 0);
+	const tab = TAB;
+	const back = () => {
+		setActiveTab(tab);
+		here();
+	};
+	root.querySelectorAll('.md a[href^="#note/"], .md a[href^="#hw/"]').forEach((a) => (a.onclick = (e) => {
+		e.preventDefault();
+		const [kind, id] = a.getAttribute('href').slice(1).split('/');
+		if (kind === 'note' && NOTES.some((n) => n.id === id)) openNote(id, back);
+		else if (kind === 'hw' && HW.some((h) => h.id === id)) {
+			setActiveTab('hw');
+			openHomework(id, back);
+		}
+	}));
 }
 
 const SENTENCE_RE = /[^.!;;…]+[.!;;…»"]*\s*/g;
@@ -1103,7 +1347,7 @@ function bindSettings() {
 }
 
 async function exportProgress() {
-	const payload = { app: 'greek-cards', exported: new Date().toISOString(), settings: SETTINGS, cards: CARDS, log: LOG };
+	const payload = { app: 'greek-cards', exported: new Date().toISOString(), settings: SETTINGS, cards: CARDS, log: LOG, hw: HW_DONE };
 	const name = `greek-progress-${dayKey(Date.now())}.json`;
 	const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
 	try {
@@ -1133,6 +1377,11 @@ async function importProgress(file) {
 		if (!confirm(`Заменить текущий прогресс данными из файла (${Object.keys(data.cards).length} карточек)?`)) return;
 		CARDS = data.cards;
 		LOG = Array.isArray(data.log) ? data.log : [];
+		if (data.hw && typeof data.hw === 'object') {
+			HW_DONE = data.hw;
+			store.set(LS.hw, HW_DONE);
+			updateHwBadge();
+		}
 		if (data.settings) {
 			SETTINGS = { ...SETTINGS, ...data.settings };
 			saveSettings();
@@ -1182,9 +1431,12 @@ const reviewedAt = (c) => (c && c.last_review ? Date.parse(c.last_review) || 0 :
 function mergeRemote(remote) {
 	const res = { changed: false, localExtra: false };
 	if (!remote || typeof remote !== 'object') {
-		res.localExtra = Object.keys(CARDS).length > 0 || LOG.length > 0;
+		res.localExtra = Object.keys(CARDS).length > 0 || LOG.length > 0 || Object.keys(HW_DONE).length > 0;
 		return res;
 	}
+	const hw = mergeHw(remote.hw);
+	res.changed = hw.changed;
+	res.localExtra = hw.localExtra;
 	const rCards = remote.cards && typeof remote.cards === 'object' ? remote.cards : {};
 	const rLog = Array.isArray(remote.log) ? remote.log : [];
 	const freshDevice = !Object.keys(CARDS).length && !LOG.length;
@@ -1242,7 +1494,7 @@ function myStats() {
 
 async function push() {
 	if (!API || !ACCOUNT) return;
-	await api('PUT', '/api/me', { data: { cards: CARDS, log: LOG, settings: SETTINGS }, stats: myStats(), name: ACCOUNT.name });
+	await api('PUT', '/api/me', { data: { cards: CARDS, log: LOG, settings: SETTINGS, hw: HW_DONE }, stats: myStats(), name: ACCOUNT.name });
 	DIRTY = false;
 	ACCOUNT.lastSync = Date.now();
 	ACCOUNT.pushedDay = dayKey(Date.now());
@@ -1284,6 +1536,7 @@ function maybeSyncDuringSession() {
 }
 
 function rerender() {
+	updateHwBadge();
 	if (!$session.hidden || SUBVIEW) return;
 	showTab(TAB);
 }
@@ -1498,10 +1751,16 @@ async function fetchJson(url, fresh) {
 }
 
 async function loadData(fresh = false) {
-	const [words, notes] = await Promise.all([fetchJson('data/words.json', fresh), fetchJson('data/notes.json', fresh)]);
+	const [words, notes, hw] = await Promise.all([
+		fetchJson('data/words.json', fresh),
+		fetchJson('data/notes.json', fresh),
+		fetchJson('data/homework.json', fresh).catch(() => ({ homework: [] })),
+	]);
 	DATA = words;
 	WORDS = new Map(DATA.words.map((w) => [w.id, w]));
 	NOTES = notes.notes || [];
+	HW = (hw.homework || []).map((h) => ({ ...h, tasks: hwTasks(h.md) }));
+	updateHwBadge();
 }
 
 async function boot() {
