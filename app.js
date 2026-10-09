@@ -350,8 +350,7 @@ function pickVoice() {
 	return list.find((v) => v.voiceURI === SETTINGS.voice) || list.find((v) => v.name === SETTINGS.voiceName) || null;
 }
 
-function speak(text) {
-	if (!('speechSynthesis' in window) || !text) return;
+function prepareSpeech() {
 	const synth = window.speechSynthesis;
 	try {
 		// iOS Safari mutes web audio when the silent switch is on; 'playback' behaves like a media app
@@ -359,20 +358,43 @@ function speak(text) {
 	} catch {}
 	if (synth.speaking || synth.pending) synth.cancel();
 	if (synth.paused) synth.resume(); // iOS sometimes leaves the queue paused after backgrounding
+	document.querySelectorAll('.speaking').forEach((n) => n.classList.remove('speaking'));
+}
+
+function makeUtterance(text) {
+	const u = new SpeechSynthesisUtterance(text);
+	u.lang = 'el-GR';
+	u.rate = SETTINGS.rate;
+	// only force a voice the user picked explicitly; otherwise iOS uses its default Greek voice
+	const voice = pickVoice();
+	if (voice) {
+		u.voice = voice;
+		u.lang = voice.lang;
+	}
+	return u;
+}
+
+function speak(text) {
+	if (!('speechSynthesis' in window) || !text) return;
+	prepareSpeech();
 	const clean = String(text).replace(/\s+/g, ' ').trim();
 	// long texts are split into sentences: iOS may cut off very long utterances
 	const parts = clean.length > 180 ? clean.match(/[^.!;;…]+[.!;;…]*/g) || [clean] : [clean];
-	// only force a voice the user picked explicitly; otherwise iOS uses its default Greek voice
-	const voice = pickVoice();
-	for (const part of parts) {
-		const u = new SpeechSynthesisUtterance(part.trim());
-		u.lang = 'el-GR';
-		u.rate = SETTINGS.rate;
-		if (voice) {
-			u.voice = voice;
-			u.lang = voice.lang;
-		}
-		synth.speak(u);
+	for (const part of parts) window.speechSynthesis.speak(makeUtterance(part.trim()));
+}
+
+/** Speak elements' data-say one after another, highlighting the current one. */
+function speakNodes(nodes) {
+	if (!('speechSynthesis' in window) || !nodes.length) return;
+	prepareSpeech();
+	for (const node of nodes) {
+		const u = makeUtterance(node.dataset.say);
+		u.onstart = () => {
+			document.querySelectorAll('.speaking').forEach((n) => n.classList.remove('speaking'));
+			node.classList.add('speaking');
+		};
+		u.onend = () => node.classList.remove('speaking');
+		window.speechSynthesis.speak(u);
 	}
 }
 
@@ -831,19 +853,76 @@ function openNote(id) {
 	setTitle(n.title, () => showTab('notes'));
 	const html = window.marked.parse(n.md, { gfm: true, breaks: false });
 	$view.innerHTML = `<p class="muted small" style="margin:4px 0 0">${esc(n.date)}</p><div class="md">${html}</div>`;
-	$view.querySelectorAll('pre > code.language-el').forEach((code) => {
-		const text = code.textContent.trim();
-		const div = document.createElement('div');
-		div.className = 'el-block el';
-		div.textContent = text;
-		div.insertAdjacentHTML('beforeend', speakBtn(text.replace(/^—\s*/gm, ''), 'Прочитать'));
-		code.parentElement.replaceWith(div);
-	});
+	renderSpeakable($view);
 	$view.querySelectorAll('.md a[href^="http"]').forEach((a) => {
 		a.target = '_blank';
 		a.rel = 'noopener';
 	});
 	window.scrollTo(0, 0);
+}
+
+const SENTENCE_RE = /[^.!;;…]+[.!;;…»"]*\s*/g;
+const HAS_GREEK = /[Ͱ-Ͽἀ-῿]/;
+const HAS_CYR = /[Ѐ-ӿ]/;
+const PLAY_ALL_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
+
+/**
+ * Notes markup: ```el blocks (one phrase per line, optional " | перевод")
+ * and ```dialog blocks ("Кто: реплика"). Every line is played separately,
+ * the speaker and the translation are shown but not spoken.
+ */
+function renderSpeakable(root) {
+	root.querySelectorAll('pre > code.language-el, pre > code.language-dialog').forEach((code) => {
+		const isDialog = code.classList.contains('language-dialog');
+		const items = code.textContent.split('\n').map((s) => s.trim()).filter(Boolean).map((line) => {
+			let who = '';
+			let rest = line;
+			const m = isDialog && line.match(/^([^:—]{1,40}):\s*(.+)$/);
+			if (m) {
+				who = m[1].trim();
+				rest = m[2];
+			}
+			rest = rest.replace(/^—\s*/, '');
+			const [el, ru = ''] = rest.split(/\s+\|\s+/);
+			return { who, el: el.trim(), ru: ru.trim() };
+		});
+		const box = document.createElement('div');
+		box.className = `el-block${isDialog ? ' dialog' : ''}`;
+		const head = `<div class="el-head"><button class="play-all">${PLAY_ALL_SVG}<span>${isDialog ? 'Весь диалог' : 'Всё подряд'}</span></button></div>`;
+		if (!isDialog && items.length === 1 && items[0].el.length > 120) {
+			// reading text: every sentence is tappable
+			const sentences = items[0].el.match(SENTENCE_RE) || [items[0].el];
+			box.classList.add('prose');
+			box.innerHTML = `${head}<p class="el">${sentences.map((t) => `<span class="sent" data-say="${esc(t.trim())}">${esc(t)}</span>`).join('')}</p>`;
+		} else {
+			box.innerHTML = (items.length > 1 ? head : '') + items.map((it) => `
+				<div class="line" data-say="${esc(it.el)}">
+					${it.who ? `<div class="who">${esc(it.who)}</div>` : ''}
+					<div class="txt"><div class="el">${esc(it.el)}</div>${it.ru ? `<div class="ru">${esc(it.ru)}</div>` : ''}</div>
+					<span class="say-icon" aria-hidden="true">${SPEAKER_SVG}</span>
+				</div>`).join('');
+		}
+		code.parentElement.replaceWith(box);
+	});
+
+	// Greek table cells are tappable too ("είμαι — я есть" → only the Greek part)
+	root.querySelectorAll('.md td').forEach((td) => {
+		let t = td.textContent.replace(/\s+/g, ' ').trim();
+		if (HAS_CYR.test(t)) t = t.split(/\s+[—–-]\s+/)[0];
+		if (!HAS_GREEK.test(t) || HAS_CYR.test(t) || t.replace(/[^Ͱ-Ͽἀ-῿]/g, '').length < 3) return;
+		td.classList.add('say-cell');
+		td.dataset.say = t.replace(/[()]/g, ' ').replace(/\s*\/\s*/g, ', ');
+	});
+
+	root.querySelectorAll('.play-all').forEach((b) => (b.onclick = (e) => {
+		e.stopPropagation();
+		if (window.speechSynthesis?.speaking) {
+			prepareSpeech(); // second tap stops
+			return;
+		}
+		speakNodes([...b.closest('.el-block').querySelectorAll('[data-say]')]);
+	}));
+	root.querySelectorAll('[data-say]').forEach((n) => (n.onclick = () => speakNodes([n])));
 }
 
 /* ---------- stats & settings ---------- */
