@@ -386,11 +386,11 @@ function speak(text) {
 }
 
 /** Speak elements' data-say one after another, highlighting the current one. */
-function speakNodes(nodes) {
+function speakNodes(nodes, text = (n) => n.dataset.say) {
 	if (!('speechSynthesis' in window) || !nodes.length) return;
 	prepareSpeech();
 	for (const node of nodes) {
-		const u = makeUtterance(node.dataset.say);
+		const u = makeUtterance(text(node));
 		u.onstart = () => {
 			document.querySelectorAll('.speaking').forEach((n) => n.classList.remove('speaking'));
 			node.classList.add('speaking');
@@ -1110,12 +1110,146 @@ const HAS_GREEK = /[Ͱ-Ͽἀ-῿]/;
 const HAS_CYR = /[Ѐ-ӿ]/;
 const PLAY_ALL_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
 
+/* ---------- phone number trainer (```phone block) ---------- */
+
+const DIGITS_EL = ['μηδέν', 'ένα', 'δύο', 'τρία', 'τέσσερα', 'πέντε', 'έξι', 'εφτά', 'οχτώ', 'εννιά'];
+const LS_PHONE = 'gk.phone.v1'; // own number, stays on this device only
+
+const digitChip = (d) => `<span class="ph-d" data-ph="${DIGITS_EL[d]}"><b>${d}</b><span class="el">${DIGITS_EL[d]}</span></span>`;
+
+/** Digits as chips; spaces and dashes split groups. */
+function phoneChips(text) {
+	let html = '';
+	for (const ch of text) {
+		if (/\d/.test(ch)) html += digitChip(Number(ch));
+		else if (/[\s\-.]/.test(ch) && !html.endsWith('<i class="ph-gap"></i>')) html += '<i class="ph-gap"></i>';
+	}
+	return html;
+}
+
+function speakDigits(digits, nodes = []) {
+	const items = [...digits].map((d, i) => {
+		const n = nodes[i] || document.createElement('span');
+		n.dataset.ph = DIGITS_EL[d];
+		return n;
+	});
+	speakNodes(items, (n) => n.dataset.ph);
+}
+
+function randomPhone() {
+	const second = [4, 5, 6, 7, 9][Math.floor(Math.random() * 5)];
+	let s = `9${second}`;
+	for (let i = 0; i < 6; i++) s += Math.floor(Math.random() * 10);
+	return s;
+}
+
+function renderPhone() {
+	const box = document.createElement('div');
+	box.className = 'phone';
+	box.innerHTML = `
+		<div class="chips ph-tabs">
+			<button class="chip on" data-mode="say">Мой номер</button>
+			<button class="chip" data-mode="quiz">Диктант</button>
+		</div>
+		<div class="ph-pane" data-pane="say">
+			<input class="search ph-input" type="tel" inputmode="tel" placeholder="Введи номер, например 99 123456" autocomplete="off">
+			<div class="ph-digits"></div>
+			<button class="btn primary ph-play" disabled>${PLAY_ALL_SVG}<span>Продиктовать</span></button>
+		</div>
+		<div class="ph-pane" data-pane="quiz" hidden>
+			<p class="ph-hint">Тебе диктуют кипрский мобильный — набери, что услышал.</p>
+			<div class="ph-row">
+				<button class="btn primary ph-new">Новый номер</button>
+				<button class="btn ph-again" disabled>Ещё раз</button>
+			</div>
+			<input class="search ph-answer" type="tel" inputmode="numeric" placeholder="Что услышал?" autocomplete="off" disabled>
+			<div class="ph-row">
+				<button class="btn ph-check" disabled>Проверить</button>
+				<button class="btn ghost ph-show" disabled>Показать</button>
+			</div>
+			<div class="ph-result"></div>
+		</div>`;
+	const $ = (s) => box.querySelector(s);
+	const input = $('.ph-input');
+	const digitsBox = $('.ph-digits');
+	const play = $('.ph-play');
+	const update = () => {
+		digitsBox.innerHTML = phoneChips(input.value);
+		play.disabled = !/\d/.test(input.value);
+	};
+	input.value = store.get(LS_PHONE, '');
+	update();
+	input.addEventListener('input', () => {
+		update();
+		try {
+			localStorage.setItem(LS_PHONE, JSON.stringify(input.value));
+		} catch {}
+	});
+	digitsBox.addEventListener('click', (e) => {
+		const d = e.target.closest('.ph-d');
+		if (d) speakNodes([d], (n) => n.dataset.ph);
+	});
+	play.onclick = () => {
+		if (window.speechSynthesis?.speaking) return prepareSpeech();
+		const chips = [...digitsBox.querySelectorAll('.ph-d')];
+		speakNodes(chips, (n) => n.dataset.ph);
+	};
+
+	box.querySelectorAll('[data-mode]').forEach((b) => (b.onclick = () => {
+		box.querySelectorAll('[data-mode]').forEach((x) => x.classList.toggle('on', x === b));
+		box.querySelectorAll('[data-pane]').forEach((p) => (p.hidden = p.dataset.pane !== b.dataset.mode));
+	}));
+
+	let secret = '';
+	let score = { ok: 0, all: 0 };
+	const answer = $('.ph-answer');
+	const result = $('.ph-result');
+	const dictate = () => speakDigits(secret);
+	$('.ph-new').onclick = () => {
+		secret = randomPhone();
+		answer.value = '';
+		result.innerHTML = '';
+		['.ph-again', '.ph-check', '.ph-show'].forEach((s) => ($(s).disabled = false));
+		answer.disabled = false;
+		dictate();
+	};
+	$('.ph-again').onclick = dictate;
+	const reveal = (mine) => {
+		const got = (mine || '').replace(/\D/g, '');
+		const cells = [...secret].map((d, i) => {
+			const cls = mine === null ? '' : got[i] === d ? 'ok' : 'bad';
+			return `<span class="ph-d ${cls}" data-ph="${DIGITS_EL[d]}"><b>${d}</b><span class="el">${DIGITS_EL[d]}</span>${cls === 'bad' ? `<s>${esc(got[i] || '·')}</s>` : ''}</span>`;
+		}).join('');
+		return `<div class="ph-digits">${cells}</div>`;
+	};
+	$('.ph-check').onclick = () => {
+		const got = answer.value.replace(/\D/g, '');
+		if (!got) return answer.focus();
+		const ok = got === secret;
+		score = { ok: score.ok + (ok ? 1 : 0), all: score.all + 1 };
+		result.innerHTML = `<div class="ph-verdict ${ok ? 'ok' : 'bad'}">${ok ? 'Верно!' : 'Есть ошибки'} <span>· ${score.ok} из ${score.all}</span></div>${ok ? '' : reveal(answer.value)}`;
+		$('.ph-check').disabled = true;
+	};
+	$('.ph-show').onclick = () => {
+		result.innerHTML = reveal(null);
+		$('.ph-check').disabled = true;
+	};
+	answer.addEventListener('keydown', (e) => e.key === 'Enter' && $('.ph-check').click());
+	answer.addEventListener('input', () => secret && ($('.ph-check').disabled = false));
+	result.addEventListener('click', (e) => {
+		const d = e.target.closest('.ph-d');
+		if (d) speakNodes([d], (n) => n.dataset.ph);
+	});
+	return box;
+}
+
 /**
  * Notes markup: ```el blocks (one phrase per line, optional " | перевод")
  * and ```dialog blocks ("Кто: реплика"). Every line is played separately,
  * the speaker and the translation are shown but not spoken.
  */
 function renderSpeakable(root) {
+	root.querySelectorAll('pre > code.language-phone').forEach((code) => code.parentElement.replaceWith(renderPhone()));
 	root.querySelectorAll('pre > code.language-el, pre > code.language-dialog').forEach((code) => {
 		const isDialog = code.classList.contains('language-dialog');
 		const items = code.textContent.split('\n').map((s) => s.trim()).filter(Boolean).map((line) => {
