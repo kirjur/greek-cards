@@ -865,7 +865,7 @@ function renderDictList() {
 
 const WEEKDAYS = ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'];
 const TASK_RE = /^\s*[-*+] \[[ xX]\] (.+)$/gm;
-const LESSON_END_MIN = 10 * 60 + 15; // lessons are 08:45–10:15: after that, homework due today counts as handed in
+const LESSON_END_MIN = 10 * 60; // lessons are 08:45–09:45: after that, homework due today counts as handed in
 
 /** Stable key of a task: a short hash of its text, so reordering tasks keeps the ticks. */
 function taskKey(text) {
